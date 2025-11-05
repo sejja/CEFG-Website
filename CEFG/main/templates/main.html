@@ -20,6 +20,17 @@
             <h1>Hello, World!</h1>
             <p>Welcome to your new HTML page. Edit <code>main.html</code> to get started.</p>
             <footer>CEFG-Website • main/html/main.html</footer>
+            <pre>{{ graph }}</pre>
+            <ul>
+                {% for node in nodes %}
+                    <li>{{ node }}</li>
+                {% endfor %}
+            </ul>
+            <ul>
+                {% for edge in edges %}
+                    <li>{{ edge }}</li>
+                {% endfor %}
+            </ul>
         </main>
     </div>
 </body>
