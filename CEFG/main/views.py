@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render
 from .models import Graph, Node, Edge
 
@@ -13,3 +14,12 @@ def home(request):
 def nlp_graph(request):
     # Renders the NLP graph page
     return render(request, 'index.html')
+
+def save_graph(request):
+    print("Saving graph...")
+    # Function to add the created graph to the database
+    if request.method == 'POST':
+        print(request.body)
+    # Return graph id for the js function
+    r = JsonResponse({'graph_id': 1})
+    return r

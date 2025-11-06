@@ -39,6 +39,43 @@ function generateSpans(text) {
   return spans;
 }
 
+function print_graph(graph) {
+  console.log('Nodes:');
+  graph.nodes.forEach(n => {
+    console.log(`  ${n.id} (${n.type}): ${n.label} [${n.text}]`);
+  });
+  console.log('Edges:');
+  graph.edges.forEach(e => {
+    console.log(`  ${e.source} -> ${e.target}`);
+  });
+}
+
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+  return null;
+}
+
+function save_graph(graph) {
+  console.log('Saving graph to server...');
+  fetch('/save_graph/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRFToken': getCookie('csrftoken')
+    },
+    body: JSON.stringify(graph)
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('Graph saved with ID:', data.graph_id);
+  })
+  .catch((error) => {
+    console.error('Error saving graph:', error);
+  });
+}
+
 // Build nodes and edges from spans: sentence node + entity nodes; edges for overlaps/adjacency
 function buildGraph(spans) {
   const nodes = [];
@@ -191,6 +228,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const spans = generateSpans(text);
     const graph = buildGraph(spans);
     simulate(graph, svg);
+    print_graph(graph);
+    save_graph(graph);
   });
 
   rndBtn.addEventListener('click', () => {

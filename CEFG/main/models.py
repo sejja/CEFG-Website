@@ -3,7 +3,9 @@ from django.db import models
 # Create your models here.
 class Node(models.Model):
     name = models.CharField(max_length=100)
-    description = models.TextField()
+    entity = models.CharField(max_length=50)
+    type = models.CharField(max_length=50)
+    text = models.TextField()
 
     def __str__(self):
         return self.name
@@ -18,6 +20,7 @@ class Edge(models.Model):
 
 class Graph(models.Model):
     name = models.CharField(max_length=100)
+    text = models.TextField()
     nodes = models.ManyToManyField(Node)
     edges = models.ManyToManyField(Edge)
 
