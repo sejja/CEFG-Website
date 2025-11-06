@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>NLP Graph — placeholder NER</title>
+    <style>
+      /* Clean, paper-like styling */
+      :root{--bg:#f7f6f3;--paper:#ffffff;--accent:#2b6cb0;--muted:#666}
+      html,body{height:100%;margin:0;font-family:Georgia, 'Times New Roman', serif;background:linear-gradient(180deg,var(--bg),#fff)}
+      .wrap{min-height:100%;display:flex;align-items:center;justify-content:center;padding:40px}
+      .paper{width:980px;max-width:95%;background:var(--paper);box-shadow:0 6px 30px rgba(0,0,0,0.08);border-radius:8px;padding:28px}
+      h1{margin:0 0 10px;font-size:20px}
+      p.lead{margin:0 0 18px;color:var(--muted)}
+      .controls{display:flex;gap:10px;align-items:flex-start}
+      textarea{flex:1;height:78px;padding:10px;border:1px solid #e6e6e6;border-radius:6px;font-size:15px}
+      button{background:var(--accent);color:white;border:none;padding:10px 16px;border-radius:6px;cursor:pointer}
+      .meta{margin-top:12px;color:var(--muted);font-size:13px}
+      .graph-area{margin-top:18px;border-top:1px dashed #eee;padding-top:18px}
+      svg{width:100%;height:420px;background:linear-gradient(#fff, #fbfbfb);border-radius:6px;border:1px solid #f0f0f0}
+      .node-label{font-family:Arial,Helvetica,sans-serif;font-size:12px;pointer-events:none}
+      .legend{margin-top:12px;font-size:13px}
+      .chip{display:inline-block;padding:4px 8px;border-radius:12px;margin-right:8px;background:#f2f6fb;color:#244a78;font-weight:600}
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="paper">
+        <h1>NLP Graph (placeholder NER)</h1>
+        <p class="lead">Paste a sentence below. The site will (with a placeholder) detect entity spans and draw a graph of entities and relationships.</p>
+
+        <div class="controls">
+          <textarea id="sentence" placeholder="Type or paste a sentence here">Barack Obama visited Microsoft in 2014 and later spoke at the University of Oxford.</textarea>
+          <div style="display:flex;flex-direction:column">
+            <button id="analyze">Analyze (placeholder)</button>
+            <button id="random" style="margin-top:8px;background:#666;">Random sentence</button>
+          </div>
+        </div>
+        <div class="meta">This demo uses randomly-generated spans (placeholder for a real NER model). Entities are connected to the sentence and to each other if they overlap or are adjacent.</div>
+
+        <div class="graph-area">
+          <svg id="svg"></svg>
+          <div class="legend">
+            <span class="chip">Sentence</span>
+            <span class="chip">Entity</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+    // Small helper: pick random int [a,b]
+    function rnd(a,b){return Math.floor(Math.random()*(b-a+1))+a}
+
+    // Generate placeholder NER spans from text: pick random word spans
+    function generateSpans(text){
+      const labels = ['PERSON','ORG','LOC','DATE','MISC']
+      const words = text.trim().split(/\s+/).filter(Boolean)
+      const n = words.length
+      if(n===0) return []
+      const spanCount = Math.min(Math.max(1, Math.floor(n/3)), rnd(2, Math.min(5,n)))
+      const spans = []
+      const used = new Set()
+      for(let i=0;i<spanCount;i++){
+        let s = rnd(0,n-1)
+        let maxEnd = Math.min(n-1, s+Math.floor(n/4))
+        let e = rnd(s, maxEnd)
+        // avoid identical spans
+        const key = s+':'+e
+        if(used.has(key)){ i--; continue }
+        used.add(key)
+        spans.push({start:s, end:e, text: words.slice(s,e+1).join(' '), label: labels[rnd(0,labels.length-1)]})
+      }
+      return spans
+    }
+
+    // Build nodes and edges from spans: sentence node + entity nodes; edges for overlaps/adjacency
+    function buildGraph(spans){
+      const nodes = []
+      const edges = []
+      // sentence node
+      nodes.push({id: 'sentence', type:'sentence', label:'Sentence', text: null})
+      spans.forEach((s,idx)=>{
+        const id = 'e'+idx
+        nodes.push({id:id,type:'entity',label:s.label, text:s.text, start:s.start, end:s.end})
+        edges.push({source:'sentence', target:id})
+      })
+      // edges between entities if overlapping or adjacent
+      for(let i=0;i<spans.length;i++){
+        for(let j=i+1;j<spans.length;j++){
+          const a = spans[i], b = spans[j]
+          const overlap = !(a.end < b.start || b.end < a.start)
+          const adjacent = (a.end+1===b.start)||(b.end+1===a.start)
+          if(overlap || adjacent) edges.push({source:'e'+i, target:'e'+j})
+        }
+      }
+      return {nodes, edges}
+    }
+
+    // Very small force-directed layout (CPU-light for demo)
+    function simulate(graph, svgEl){
+      const W = svgEl.clientWidth, H = svgEl.clientHeight
+      // initialize positions
+      graph.nodes.forEach((n,i)=>{
+        n.x = W/2 + (Math.random()-0.5)*200
+        n.y = H/2 + (Math.random()-0.5)*120
+        n.vx = 0; n.vy = 0
+        n.r = (n.type==='sentence')?18:14
+      })
+      const nodeById = Object.fromEntries(graph.nodes.map(n=>[n.id,n]))
+      const springs = graph.edges.map(e=>({source:nodeById[e.source], target:nodeById[e.target], length:120}))
+
+      const ctx = svgEl
+      function step(){
+        // repulsion
+        for(let i=0;i<graph.nodes.length;i++){
+          const a = graph.nodes[i]
+          for(let j=i+1;j<graph.nodes.length;j++){
+            const b = graph.nodes[j]
+            let dx = a.x - b.x, dy = a.y - b.y
+            let dist2 = dx*dx + dy*dy + 0.01
+            let dist = Math.sqrt(dist2)
+            let F = 12000 / dist2
+            // apply
+            a.vx += (dx/dist) * F
+            a.vy += (dy/dist) * F
+            b.vx -= (dx/dist) * F
+            b.vy -= (dy/dist) * F
+          }
+        }
+        // springs
+        springs.forEach(s=>{
+          let dx = s.target.x - s.source.x, dy = s.target.y - s.source.y
+          let dist = Math.sqrt(dx*dx + dy*dy) + 0.01
+          let k = 0.03
+          let force = (dist - s.length) * k
+          let fx = (dx/dist) * force, fy = (dy/dist) * force
+          s.source.vx += fx; s.source.vy += fy
+          s.target.vx -= fx; s.target.vy -= fy
+        })
+        // integrate
+        graph.nodes.forEach(n=>{
+          // damping
+          n.vx *= 0.65; n.vy *= 0.65
+          n.x += n.vx * 0.02
+          n.y += n.vy * 0.02
+          // bounds
+          n.x = Math.max(20, Math.min(W-20, n.x))
+          n.y = Math.max(20, Math.min(H-20, n.y))
+        })
+      }
+
+      let running = true
+      function render(){
+        // update positions before drawing
+        for(let i=0;i<6;i++) step()
+        // clear
+        while(svgEl.firstChild) svgEl.removeChild(svgEl.firstChild)
+        // draw edges
+        graph.edges.forEach(e=>{
+          const s = nodeById[e.source], t = nodeById[e.target]
+          const line = document.createElementNS('http://www.w3.org/2000/svg','line')
+          line.setAttribute('x1', s.x)
+          line.setAttribute('y1', s.y)
+          line.setAttribute('x2', t.x)
+          line.setAttribute('y2', t.y)
+          line.setAttribute('stroke','#c9d6e5')
+          line.setAttribute('stroke-width','2')
+          svgEl.appendChild(line)
+        })
+        // draw nodes
+        graph.nodes.forEach(n=>{
+          const g = document.createElementNS('http://www.w3.org/2000/svg','g')
+          // circle
+          const c = document.createElementNS('http://www.w3.org/2000/svg','circle')
+          c.setAttribute('cx', n.x)
+          c.setAttribute('cy', n.y)
+          c.setAttribute('r', n.r)
+          c.setAttribute('fill', n.type==='sentence'? '#ffd89b' : '#bfe1ff')
+          c.setAttribute('stroke','#8aaed9')
+          c.setAttribute('stroke-width','1.5')
+          g.appendChild(c)
+          // label
+          const t = document.createElementNS('http://www.w3.org/2000/svg','text')
+          t.setAttribute('x', n.x + n.r + 6)
+          t.setAttribute('y', n.y + 4)
+          t.setAttribute('class','node-label')
+          t.textContent = n.type==='sentence' ? 'Sentence' : `${n.label}: ${n.text}`
+          g.appendChild(t)
+          svgEl.appendChild(g)
+        })
+        if(running) requestAnimationFrame(render)
+      }
+      requestAnimationFrame(render)
+      // stop after some seconds to keep CPU low
+      setTimeout(()=>running=false, 8000)
+    }
+
+    // Wire UI
+    const btn = document.getElementById('analyze')
+    const rndBtn = document.getElementById('random')
+    const ta = document.getElementById('sentence')
+    const svg = document.getElementById('svg')
+
+    btn.addEventListener('click', ()=>{
+      const text = ta.value.trim()
+      const spans = generateSpans(text)
+      const graph = buildGraph(spans)
+      simulate(graph, svg)
+    })
+
+    rndBtn.addEventListener('click', ()=>{
+      const examples = [
+        'Apple acquired a small startup in Berlin last month.',
+        'Marie Curie studied at the University of Paris and won a prize in 1903.',
+        'The concert in Madrid featured artists from Spain and Mexico.',
+        'Google opened a new office in Zurich in 2019 to expand research.'
+      ]
+      ta.value = examples[rnd(0,examples.length-1)]
+    })
+
+    // run once on load
+    document.addEventListener('DOMContentLoaded', ()=> btn.click())
+    </script>
+  </body>
+</html>
