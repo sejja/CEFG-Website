@@ -16,10 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from main.views import nlp_graph, save_graph
+from main.views import nlp_graph, save_graph, check_get_graph
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', nlp_graph, name='nlp_graph'),
     path('save_graph/', save_graph, name='save_graph'),
+    path('check_get_graph/', check_get_graph, name='check_get_graph'),
 ]

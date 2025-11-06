@@ -5,6 +5,92 @@ function randomConstrained(a, b) {
   return Math.floor(Math.random() * (b - a + 1)) + a;
 }
 
+function print_graph(graph) {
+  console.log('Nodes:');
+  graph.nodes.forEach(n => {
+    console.log(`  ${n.id} (${n.type}): ${n.label} [${n.text}]`);
+  });
+  console.log('Edges:');
+  graph.edges.forEach(e => {
+    console.log(`  ${e.source} -> ${e.target}`);
+  });
+}
+
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+  return null;
+}
+
+function check_get_graph(text) {
+  console.log('Checking for existing graph on server...');
+  const normalizedText = text.trim().toLowerCase();
+
+  return fetch('/check_get_graph/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRFToken': getCookie('csrftoken')
+    },
+    body: JSON.stringify({ text: normalizedText })
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+  })
+  .then(data => {
+    if (data.error) {
+      console.error('Server error:', data.error);
+      return null;
+    }
+    if (data.graph) {
+      console.log('Graph already exists on server:', data.graph);
+      return data.graph;
+    }
+    console.log('No existing graph found.');
+    return null;
+  })
+  .catch((error) => {
+    console.error('Error checking graph:', error);
+    return null;
+  });
+}
+
+function save_graph(graph, text) {
+  console.log('Saving graph to server...');
+  const normalizedText = text.trim().toLowerCase();
+  
+  return fetch('/save_graph/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRFToken': getCookie('csrftoken')
+    },
+    body: JSON.stringify({ graph: graph, text: normalizedText })
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+  })
+  .then(data => {
+    if (data.error) {
+      console.error('Server error:', data.error);
+      throw new Error(data.error);
+    }
+    console.log('Graph saved with ID:', data.graph_id);
+    return data;
+  })
+  .catch((error) => {
+    console.error('Error saving graph:', error);
+    throw error;
+  });
+}
+
 function generateSpans(text) {
   const labels = ['VICTIM', 'OBJECTIVE', 'FACILITATOR', 'NEGATIVE EFFECT', 'AGENT'];
   const words = text.trim().split(/\s+/).filter(Boolean);
@@ -185,12 +271,35 @@ document.addEventListener('DOMContentLoaded', () => {
   const ta = document.getElementById('sentence');
   const svg = document.getElementById('svg');
 
-  btn.addEventListener('click', () => {
+  btn.addEventListener('click', async () => {
     const text = ta.value.trim();
-    if (!text) return;
-    const spans = generateSpans(text);
-    const graph = buildGraph(spans);
-    simulate(graph, svg);
+    if (!text) {
+      console.warn('Empty text input');
+      return;
+    }
+    
+    try {
+      // Show loading state (optional)
+      btn.disabled = true;
+      btn.textContent = 'Analyzing...';
+      
+      let graph = await check_get_graph(text);
+      
+      if (graph == null) {
+        const spans = generateSpans(text);
+        graph = buildGraph(spans);
+        await save_graph(graph, text);
+      }
+      
+      simulate(graph, svg);
+      print_graph(graph);
+    } catch (error) {
+      console.error('Failed to process graph:', error);
+      alert('An error occurred while processing the graph. Please try again.');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Analyze';
+    }
   });
 
   rndBtn.addEventListener('click', () => {

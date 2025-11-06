@@ -17,49 +17,135 @@ def nlp_graph(request):
     # Renders the NLP graph page
     return render(request, 'index.html')
 
+def check_get_graph(request):
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+    try:
+        payload = json.loads(request.body.decode('utf-8')) if request.body else {}
+    except (ValueError, json.JSONDecodeError):
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+
+    text = payload.get('text', '').strip().lower()
+    
+    if not text:
+        return JsonResponse({'error': 'Missing or empty "text" in request'}, status=400)
+    
+    # Validate text length
+    if len(text) > 5000:
+        return JsonResponse({'error': 'Text too long (max 5000 characters)'}, status=400)
+
+    existing_graph = Graph.objects.filter(text=text).first()
+
+    if not existing_graph:
+        return JsonResponse({'graph': None})
+
+    # serialize nodes
+    nodes = []
+    for n in existing_graph.nodes.all():
+        nodes.append({
+            'id': n.name,
+            'label': n.entity,
+            'type': n.type,
+            'text': n.text or ''
+        })
+
+    # serialize edges
+    edges = []
+    for e in existing_graph.edges.all():
+        edges.append({
+            'source': e.from_node.name,
+            'target': e.to_node.name
+        })
+
+    return JsonResponse({
+        'graph': {
+            'nodes': nodes,
+            'edges': edges
+        }
+    })
+
 def save_graph(request):
-    print("Saving graph...")
-    # Function to add the created graph to the database
-    if request.method == 'POST':
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
+    
+    try:
         data = json.loads(request.body)
-    print("Graph data received:", data)
+    except (ValueError, json.JSONDecodeError):
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+    
+    text = data.get('text', '').strip().lower()
+    
+    if not text:
+        return JsonResponse({'error': 'Missing or empty "text" in request'}, status=400)
+    
+    # Validate text length
+    if len(text) > 5000:
+        return JsonResponse({'error': 'Text too long (max 5000 characters)'}, status=400)
+    
+    graph_data = data.get('graph')
+    if not graph_data:
+        return JsonResponse({'error': 'Missing "graph" in request'}, status=400)
+    
+    # Validate graph structure
+    if not isinstance(graph_data.get('nodes'), list) or not isinstance(graph_data.get('edges'), list):
+        return JsonResponse({'error': 'Invalid graph structure'}, status=400)
+    
     # Check if graph with same text already exists
-    existing_graphs = Graph.objects.filter(text=data.get('text', ''))
-    if existing_graphs.exists():
-        print("Graph already exists. Not saving.")
-        return JsonResponse({'graph_id': existing_graphs.first().id})
+    existing_graph = Graph.objects.filter(text=text).first()
+    if existing_graph:
+        print(f"Graph already exists with ID {existing_graph.id}. Not saving.")
+        return JsonResponse({'graph_id': existing_graph.id})
     
-    # Create the graph
-    graph = Graph.objects.create(text=data.get('text', ''))
-    
-    # Dictionary to store node objects by their id
-    node_objects = {}
-    
-    # Create nodes
-    for node_data in data.get('nodes', []):
-        node = Node.objects.create(
-            name=node_data['id'],
-            entity=node_data.get('label', ''),
-            type=node_data['type'],
-            text=node_data.get('text', '') or ''
-        )
-        node_objects[node_data['id']] = node
-        graph.nodes.add(node)
-    
-    # Create edges
-    for edge_data in data.get('edges', []):
-        source_node = node_objects[edge_data['source']]
-        target_node = node_objects[edge_data['target']]
+    try:
+        # Create the graph
+        graph = Graph.objects.create(text=text)
         
-        edge = Edge.objects.create(
-            from_node=source_node,
-            to_node=target_node,
-            weight=1.0  # TODO: Default weight since it's not in the data
-        )
-        graph.edges.add(edge)
-    
-    graph.save()
+        # Dictionary to store node objects by their id
+        node_objects = {}
         
-    # Return graph id for the js function
-    r = JsonResponse({'graph_id': graph.id})
-    return r
+        # Create nodes
+        for node_data in graph_data.get('nodes', []):
+            if 'id' not in node_data or 'type' not in node_data:
+                graph.delete()  # Rollback
+                return JsonResponse({'error': 'Invalid node structure'}, status=400)
+            
+            node = Node.objects.create(
+                name=node_data['id'],
+                entity=node_data.get('label', ''),
+                type=node_data['type'],
+                text=node_data.get('text') or ''
+            )
+            node_objects[node_data['id']] = node
+            graph.nodes.add(node)
+        
+        # Create edges
+        for edge_data in graph_data.get('edges', []):
+            if 'source' not in edge_data or 'target' not in edge_data:
+                graph.delete()  # Rollback
+                return JsonResponse({'error': 'Invalid edge structure'}, status=400)
+            
+            source_id = edge_data['source']
+            target_id = edge_data['target']
+            
+            if source_id not in node_objects or target_id not in node_objects:
+                graph.delete()  # Rollback
+                return JsonResponse({'error': f'Edge references non-existent node'}, status=400)
+            
+            edge = Edge.objects.create(
+                from_node=node_objects[source_id],
+                to_node=node_objects[target_id],
+                weight=edge_data.get('weight', 1.0)
+            )
+            graph.edges.add(edge)
+        
+        graph.save()
+        print(f"Graph created with ID {graph.id}")
+        return JsonResponse({'graph_id': graph.id, 'created': True})
+        
+    except Exception as e:
+        print(f"Error saving graph: {str(e)}")
+        # Clean up if something went wrong
+        if 'graph' in locals():
+            graph.delete()
+        return JsonResponse({'error': 'Failed to save graph'}, status=500)
