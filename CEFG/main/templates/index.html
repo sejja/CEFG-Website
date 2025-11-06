@@ -1,10 +1,10 @@
 <!doctype html>
+{% load static %}
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>NLP Graph — placeholder NER</title>
-    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="{% static 'styles/style.css' %}">
   </head>
   <body>
     <h2 class="page-title">CEFG NLP Graph Demo</h2>
@@ -33,6 +33,6 @@
       </div>
     </div>
 
-    <script src="nlpgraph.js" defer></script>
+    <script src="{% static 'js/nlpgraph.js' %}" defer></script>
   </body>
 </html>

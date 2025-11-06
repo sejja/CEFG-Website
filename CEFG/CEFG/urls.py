@@ -16,9 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from django.views.generic import TemplateView
+from main.views import nlp_graph
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('nlp-graph/', TemplateView.as_view(template_name='nlpgraph/index.html'), name='nlp_graph'),
+    path('', nlp_graph, name='nlp_graph'),
 ]

@@ -9,3 +9,7 @@ def home(request):
     nodes = graph.nodes.all()
     edges = graph.edges.all()
     return render(request, 'main.html', {'graph': graph, 'nodes': nodes, 'edges': edges})
+
+def nlp_graph(request):
+    # Renders the NLP graph page
+    return render(request, 'index.html')
