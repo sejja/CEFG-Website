@@ -1,50 +1,40 @@
 // nlpgraph.js
 // Plain, readable JavaScript extracted from the template.
 
-function rnd(a, b) {
+function randomConstrained(a, b) {
   return Math.floor(Math.random() * (b - a + 1)) + a;
 }
 
 function generateSpans(text) {
-  const labels = ['PERSON', 'ORG', 'LOC', 'DATE', 'MISC'];
+  const labels = ['VICTIM', 'OBJECTIVE', 'FACILITATOR', 'NEGATIVE EFFECT', 'AGENT'];
   const words = text.trim().split(/\s+/).filter(Boolean);
   const n = words.length;
-  if (n === 0) return [];
-
-  const spanCount = Math.min(Math.max(1, Math.floor(n / 3)), rnd(2, Math.min(5, n)));
   const spans = [];
-  const used = new Set();
+
+  if (n < 2) return [];
+
+  const spanCount = randomConstrained(2, n);
 
   for (let i = 0; i < spanCount; i++) {
-    let s = rnd(0, n - 1);
+    let s = randomConstrained(0, n - 1);
     let maxEnd = Math.min(n - 1, s + Math.floor(n / 4));
-    let e = rnd(s, maxEnd);
-
-    // avoid identical spans
-    const key = s + ':' + e;
-    if (used.has(key)) {
-      i--; // try again
-      continue;
-    }
-    used.add(key);
+    let e = randomConstrained(s, maxEnd);
 
     spans.push({
       start: s,
       end: e,
       text: words.slice(s, e + 1).join(' '),
-      label: labels[rnd(0, labels.length - 1)]
+      label: labels[randomConstrained(0, labels.length - 1)]
     });
   }
 
   return spans;
 }
 
-// Build nodes and edges from spans: sentence node + entity nodes; edges for overlaps/adjacency
 function buildGraph(spans) {
   const nodes = [];
   const edges = [];
 
-  // sentence node
   nodes.push({ id: 'sentence', type: 'sentence', label: 'Sentence', text: null });
 
   spans.forEach((s, idx) => {
@@ -53,7 +43,6 @@ function buildGraph(spans) {
     edges.push({ source: 'sentence', target: id });
   });
 
-  // edges between entities if overlapping or adjacent
   for (let i = 0; i < spans.length; i++) {
     for (let j = i + 1; j < spans.length; j++) {
       const a = spans[i], b = spans[j];
@@ -66,11 +55,11 @@ function buildGraph(spans) {
   return { nodes, edges };
 }
 
-// Very small force-directed layout (CPU-light for demo)
+// This is a simple force-directed layout simulation was done with assistance from ChatGPT,
+// as animations are outside the scope of this project.
 function simulate(graph, svgEl) {
   const W = svgEl.clientWidth, H = svgEl.clientHeight;
 
-  // initialize positions
   graph.nodes.forEach((n) => {
     n.x = W / 2 + (Math.random() - 0.5) * 200;
     n.y = H / 2 + (Math.random() - 0.5) * 120;
@@ -82,7 +71,6 @@ function simulate(graph, svgEl) {
   const springs = graph.edges.map(e => ({ source: nodeById[e.source], target: nodeById[e.target], length: 120 }));
 
   function step() {
-    // repulsion
     for (let i = 0; i < graph.nodes.length; i++) {
       const a = graph.nodes[i];
       for (let j = i + 1; j < graph.nodes.length; j++) {
@@ -124,11 +112,10 @@ function simulate(graph, svgEl) {
     });
   }
 
-  let running = true;
-
   function render() {
+    const svgURL = 'https://www.w3.org/2000/svg';
     // update positions before drawing
-    for (let i = 0; i < 6; i++) step();
+    step();
 
     // clear previous contents
     while (svgEl.firstChild) svgEl.removeChild(svgEl.firstChild);
@@ -136,7 +123,7 @@ function simulate(graph, svgEl) {
     // draw edges
     graph.edges.forEach(e => {
       const s = nodeById[e.source], t = nodeById[e.target];
-      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      const line = document.createElementNS(svgURL, 'line');
       line.setAttribute('x1', s.x);
       line.setAttribute('y1', s.y);
       line.setAttribute('x2', t.x);
@@ -146,12 +133,9 @@ function simulate(graph, svgEl) {
       svgEl.appendChild(line);
     });
 
-    // draw nodes
     graph.nodes.forEach(n => {
-      const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-
-      // circle
-      const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      const g = document.createElementNS(svgURL, 'g');
+      const c = document.createElementNS(svgURL, 'circle');
       c.setAttribute('cx', n.x);
       c.setAttribute('cy', n.y);
       c.setAttribute('r', n.r);
@@ -160,8 +144,7 @@ function simulate(graph, svgEl) {
       c.setAttribute('stroke-width', '1.5');
       g.appendChild(c);
 
-      // label
-      const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      const t = document.createElementNS(svgURL, 'text');
       t.setAttribute('x', n.x + n.r + 6);
       t.setAttribute('y', n.y + 4);
       t.setAttribute('class', 'node-label');
@@ -171,15 +154,12 @@ function simulate(graph, svgEl) {
       svgEl.appendChild(g);
     });
 
-    if (running) requestAnimationFrame(render);
+    requestAnimationFrame(render);
   }
 
   requestAnimationFrame(render);
-  // stop after some seconds to keep CPU low
-  setTimeout(() => running = false, 8000);
 }
 
-// Wire UI when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
   const btn = document.getElementById('analyze');
   const rndBtn = document.getElementById('random');
@@ -188,6 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   btn.addEventListener('click', () => {
     const text = ta.value.trim();
+    if (!text) return;
     const spans = generateSpans(text);
     const graph = buildGraph(spans);
     simulate(graph, svg);
@@ -198,11 +179,15 @@ document.addEventListener('DOMContentLoaded', () => {
       'Apple acquired a small startup in Berlin last month.',
       'Marie Curie studied at the University of Paris and won a prize in 1903.',
       'The concert in Madrid featured artists from Spain and Mexico.',
-      'Google opened a new office in Zurich in 2019 to expand research.'
+      'Google opened a new office in Zurich in 2019 to expand research.',
+      'Tsinghua University collaborates with MIT on AI advancements.',
+      'The new policy by the government aims to improve healthcare services.',
+      'Tesla is building a new factory in Texas to increase production capacity.',
+      'The novel by Gabriel García Márquez explores themes of love and solitude.',
+      'Peking University announced a new research center for climate studies.'
     ];
-    ta.value = examples[rnd(0, examples.length - 1)];
+    ta.value = examples[randomConstrained(0, examples.length - 1)];
   });
 
-  // run once on load
   btn.click();
 });

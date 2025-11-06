@@ -1,24 +1,23 @@
 // nlpgraph.js
 // Plain, readable JavaScript extracted from the template.
 
-function rnd(a, b) {
+function randomConstrained(a, b) {
   return Math.floor(Math.random() * (b - a + 1)) + a;
 }
 
 function generateSpans(text) {
-  const labels = ['PERSON', 'ORG', 'LOC', 'DATE', 'MISC'];
+  const labels = ['VICTIM', 'OBJECTIVE', 'FACILITATOR', 'NEGATIVE EFFECT', 'AGENT'];
   const words = text.trim().split(/\s+/).filter(Boolean);
   const n = words.length;
-  if (n === 0) return [];
 
-  const spanCount = Math.min(Math.max(1, Math.floor(n / 3)), rnd(2, Math.min(5, n)));
+  const spanCount = Math.min(Math.max(1, Math.floor(n / 3)), randomConstrained(2, Math.min(5, n)));
   const spans = [];
   const used = new Set();
 
   for (let i = 0; i < spanCount; i++) {
-    let s = rnd(0, n - 1);
+    let s = randomConstrained(0, n - 1);
     let maxEnd = Math.min(n - 1, s + Math.floor(n / 4));
-    let e = rnd(s, maxEnd);
+    let e = randomConstrained(s, maxEnd);
 
     // avoid identical spans
     const key = s + ':' + e;
@@ -32,48 +31,11 @@ function generateSpans(text) {
       start: s,
       end: e,
       text: words.slice(s, e + 1).join(' '),
-      label: labels[rnd(0, labels.length - 1)]
+      label: labels[randomConstrained(0, labels.length - 1)]
     });
   }
 
   return spans;
-}
-
-function print_graph(graph) {
-  console.log('Nodes:');
-  graph.nodes.forEach(n => {
-    console.log(`  ${n.id} (${n.type}): ${n.label} [${n.text}]`);
-  });
-  console.log('Edges:');
-  graph.edges.forEach(e => {
-    console.log(`  ${e.source} -> ${e.target}`);
-  });
-}
-
-function getCookie(name) {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(';').shift();
-  return null;
-}
-
-function save_graph(graph) {
-  console.log('Saving graph to server...');
-  fetch('/save_graph/', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-CSRFToken': getCookie('csrftoken')
-    },
-    body: JSON.stringify(graph)
-  })
-  .then(response => response.json())
-  .then(data => {
-    console.log('Graph saved with ID:', data.graph_id);
-  })
-  .catch((error) => {
-    console.error('Error saving graph:', error);
-  });
 }
 
 // Build nodes and edges from spans: sentence node + entity nodes; edges for overlaps/adjacency
@@ -225,11 +187,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   btn.addEventListener('click', () => {
     const text = ta.value.trim();
+    if (!text) return;
     const spans = generateSpans(text);
     const graph = buildGraph(spans);
     simulate(graph, svg);
-    print_graph(graph);
-    save_graph(graph);
   });
 
   rndBtn.addEventListener('click', () => {
@@ -239,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
       'The concert in Madrid featured artists from Spain and Mexico.',
       'Google opened a new office in Zurich in 2019 to expand research.'
     ];
-    ta.value = examples[rnd(0, examples.length - 1)];
+    ta.value = examples[randomConstrained(0, examples.length - 1)];
   });
 
   // run once on load
