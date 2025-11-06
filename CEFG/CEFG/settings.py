@@ -55,7 +55,6 @@ ROOT_URLCONF = 'CEFG.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        # project-level templates directory
         'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -70,9 +69,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'CEFG.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
     'default': {
