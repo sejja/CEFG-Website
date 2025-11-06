@@ -1,19 +1,90 @@
+html,body{
+    height:100%;
+    margin:0;
+    font-family:Georgia, 'Times New Roman', serif;
+    background:linear-gradient(180deg,var(--bg),#fff)
+}
 
-/* Clean, paper-like styling moved from the template */
-:root{--bg:#f7f6f3;--paper:#ffffff;--accent:#2b6cb0;--muted:#666}
-html,body{height:100%;margin:0;font-family:Georgia, 'Times New Roman', serif;background:linear-gradient(180deg,var(--bg),#fff)}
-.page-title{font-size:18px;text-align:center;margin-bottom:20px;color:#333}
-.page-authors{font-size:20px;text-align:center;margin-bottom:20px;color:#222;margin-top:6px}
-.wrap{min-height:100%;display:flex;align-items:center;justify-content:center;padding:40px}
-.paper{width:980px;max-width:95%;background:var(--paper);box-shadow:0 6px 30px rgba(0,0,0,0.08);border-radius:8px;padding:28px}
+.page-title{
+    font-size:18px;
+    text-align:center;
+    margin-bottom:20px;
+    color:#333
+}
+
+.page-authors{
+    font-size:20px;
+    text-align:center;
+    margin-bottom:20px;
+    color:#222;
+    margin-top:6px
+}
+
+.wrap{
+    min-height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:40px
+}
+
+.paper{
+    width:980px;
+    max-width:95%;
+    background:var(--paper);
+    box-shadow:0 6px 30px rgba(0,0,0,0.08);
+    border-radius:8px;
+    padding:28px
+}
+
 h1.section-title{margin:0 0 10px;font-size:20px}
-p.lead{margin:0 0 18px;color:var(--muted)}
-.controls{display:flex;gap:10px;align-items:flex-start}
-textarea{flex:1;height:78px;padding:10px;border:1px solid #e6e6e6;border-radius:6px;font-size:15px}
-button{background:var(--accent);color:white;border:none;padding:10px 16px;border-radius:6px;cursor:pointer}
-.btn-secondary{margin-top:8px;background:#666;color:#fff}
-.meta{margin-top:12px;color:var(--muted);font-size:13px}
-.graph-area{margin-top:18px;border-top:1px dashed #eee;padding-top:18px}
+
+p.lead{
+    margin:0 0 18px;
+    color:var(--muted)
+}
+
+.controls{
+    display:flex;
+    gap:10px;
+    align-items:flex-start
+}
+
+textarea{
+    flex:1;
+    height:78px;
+    padding:10px;
+    border:1px solid #e6e6e6;
+    border-radius:6px;
+    font-size:15px
+}
+
+button{
+    background:var(--accent);
+    color:white;
+    border:none;
+    padding:10px 16px;
+    border-radius:6px;
+    cursor:pointer
+}
+
+.btn-secondary{
+    margin-top:8px;
+    background:#666;
+    color:#fff
+}
+
+.meta{
+    margin-top:12px;
+    color:var(--muted);
+    font-size:13px
+}
+
+.graph-area{
+    margin-top:18px;
+    border-top:1px dashed #eee;
+    padding-top:18px
+}
 
 svg{
     width:100%;
