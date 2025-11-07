@@ -8,15 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const selectedType = event.target.value;
         
         if (!selectedType) {
-            resultsContainer.innerHTML = '<p class="empty-state">Select a node type to see matching graphs.</p>';
+            resultsContainer.innerHTML = '<p class="empty-state">Please select a node type.</p>';
             return;
         }
         
-        // Show loading state
-        resultsContainer.innerHTML = '<p class="loading-state">Loading graphs...</p>';
-        
         try {
-            const response = await fetch(`/api/graphs/type/${encodeURIComponent(selectedType)}/`);
+            const response = await fetch(`/graphs/type/${encodeURIComponent(selectedType)}/`);
             
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -33,13 +30,13 @@ document.addEventListener('DOMContentLoaded', () => {
             
         } catch (error) {
             console.error('Error fetching graphs:', error);
-            resultsContainer.innerHTML = '<p class="empty-state">Failed to load graphs. Please try again.</p>';
+            resultsContainer.innerHTML = '<p class="empty-state">ERROR</p>';
         }
     });
     
     function displayResults(data) {
         if (!data.graphs || data.graphs.length === 0) {
-            resultsContainer.innerHTML = `<p class="empty-state">No graphs found containing nodes of type "${data.node_type}".</p>`;
+            resultsContainer.innerHTML = `<p class="empty-state">No graphs found containing type "${data.node_type}".</p>`;
             return;
         }
         
