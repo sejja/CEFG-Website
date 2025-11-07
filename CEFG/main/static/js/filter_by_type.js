@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
+    // This helper function was done partially with ChatGPT
     function displayResults(data) {
         if (!data.graphs || data.graphs.length === 0) {
             resultsContainer.innerHTML = `<p class="empty-state">No graphs found containing type "${data.node_type}".</p>`;
