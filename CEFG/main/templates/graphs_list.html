@@ -16,12 +16,8 @@
         <li>No saved graphs yet.</li>
       {% endfor %}
     </ul>
-
-    <!-- Modal preview container (positioned by JS) -->
-    <div id="preview-modal" class="preview-modal" aria-hidden="true">
-      <div class="preview-box">
-        <svg id="preview-svg" width="320" height="200"></svg>
-      </div>
+    <div style="margin-top:20px">
+            <a href="{% url 'main:nlp_graph' %}" style="color:var(--accent);text-decoration:none">← Back to inference</a>
     </div>
   </div>
 </div>

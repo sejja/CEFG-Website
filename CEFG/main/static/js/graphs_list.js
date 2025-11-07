@@ -121,9 +121,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
       clearTimeout(hoverTimer);
       hideModal(modal);
     });
-    // clicking could open a details view; left as a TODO
+    // clicking navigates to graph detail page
     item.addEventListener('click', ()=>{
-      window.location.href = `/graphs/`;
+      const id = item.dataset.id;
+      window.location.href = `/graphs/${id}/`;
     });
   });
 

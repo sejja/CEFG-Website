@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="wrap">
+    <div class="paper">
+        <h1 class="section-title">Graph #{{ graph.id }} Properties</h1>
+        <p class="lead">Text: <strong>{{ graph.text }}</strong></p>
+
+        <div class="graph-area">
+            <svg id="svg"></svg>
+            <div class="legend">
+                <span class="chip">Sentence</span>
+                <span class="chip">Entity</span>
+            </div>
+        </div>
+
+        <section style="margin-top:20px">
+            <h2 class="section-title">Graph Details</h2>
+            <h3 style="font-size:16px;margin-top:12px">Nodes ({{ nodes|length }})</h3>
+            {% for node in nodes %}
+                <div style="padding:8px;border-bottom:1px solid #f0f0f0">
+                    <strong>{{ node.name }}</strong> — Entity: {{ node.entity }}, Type: {{ node.type }}
+                    {% if node.text %}<br><em>{{ node.text }}</em>{% endif %}
+                </div>
+            {% empty %}
+                <p>No nodes found.</p>
+            {% endfor %}
+
+            <h3 style="font-size:16px;margin-top:20px">Edges ({{ edges|length }})</h3>
+            {% for edge in edges %}
+                <div style="padding:8px;border-bottom:1px solid #f0f0f0">
+                    <strong>Edge {{ edge.id }}:</strong> {{ edge.from_node.name }} → {{ edge.to_node.name }} (Weight: {{ edge.weight }})
+                </div>
+            {% empty %}
+                <p>No edges found.</p>
+            {% endfor %}
+        </section>
+
+        <div style="margin-top:20px">
+            <a href="{% url 'main:graphs_list' %}" style="color:var(--accent);text-decoration:none">← Back to graphs list</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/nlpgraph.js' %}"></script>
+<script>
+// Render the graph for this detail page when DOM loads
+document.addEventListener('DOMContentLoaded', () => {
+    const svg = document.getElementById('svg');
+    if (!svg) return;
+    
+    // Build graph from server-rendered data
+    const nodes = [
+        { id: 'sentence', type: 'sentence', label: 'Sentence', text: null }
+        {% for node in nodes %}
+        ,{ id: '{{ node.name }}', type: '{{ node.type }}', label: '{{ node.entity }}', text: '{{ node.text|escapejs }}' }
+        {% endfor %}
+    ];
+    
+    const edges = [
+        {% for edge in edges %}
+        { source: '{{ edge.from_node.name }}', target: '{{ edge.to_node.name }}' }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ];
+    
+    const graph = { nodes, edges };
+    
+    // Use the simulate function from nlpgraph.js
+    if (typeof simulate === 'function') {
+        simulate(graph, svg);
+    }
+});
+</script>
+{% endblock %}

@@ -52,6 +52,23 @@ def graph_json(request, gid):
 
     return JsonResponse({'graph': {'nodes': nodes, 'edges': edges}})
 
+
+def graph_detail(request, gid):
+    """Render a detail page for a specific graph."""
+    try:
+        graph = Graph.objects.get(id=gid)
+    except Graph.DoesNotExist:
+        from django.http import Http404
+        raise Http404("Graph not found")
+    
+    nodes = graph.nodes.all()
+    edges = graph.edges.all()
+    return render(request, 'graph_properties.html', {
+        'graph': graph,
+        'nodes': nodes,
+        'edges': edges
+    })
+
 def check_get_graph(request):
     if request.method != 'POST':
         return JsonResponse({'error': 'Invalid request method'}, status=405)
