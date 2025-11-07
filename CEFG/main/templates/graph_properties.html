@@ -60,8 +60,7 @@
         {% for edge in edges %}
         {"source": "{{ edge.from_node.id }}", "target": "{{ edge.to_node.id }}"}{% if not forloop.last %},{% endif %}
         {% endfor %}
-     ]'
-     style="display:none">
+     ]'>
 </div>
 {% endblock %}
 

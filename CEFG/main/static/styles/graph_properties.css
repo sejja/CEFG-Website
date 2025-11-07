@@ -72,3 +72,7 @@
     text-decoration: none;
     transform: translateX(-4px);
 }
+
+#graph-data {
+    display: none;
+}
