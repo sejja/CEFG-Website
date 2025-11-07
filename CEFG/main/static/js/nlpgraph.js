@@ -264,7 +264,7 @@ function simulate(graph, svgEl) {
       t.setAttribute('x', n.x + n.r + 6);
       t.setAttribute('y', n.y + 4);
       t.setAttribute('class', 'node-label');
-      t.textContent = (n.type === 'sentence') ? 'Sentence' : `${n.label}: ${n.text}`;
+      t.textContent = (n.type === 'sentence') ? 'Sentence' : `${n.id}: ${n.text}`;
       g.appendChild(t);
 
       svgEl.appendChild(g);

@@ -17,7 +17,7 @@
 
         <section style="margin-top:20px">
             <h2 class="section-title">Graph Details</h2>
-            <h3 style="font-size:16px;margin-top:12px">Nodes ({{ nodes|length }})</h3>
+            <h3 style="font-size:16px;margin-top:12px">Nodes</h3>
             {% for node in nodes %}
                 <div style="padding:8px;border-bottom:1px solid #f0f0f0">
                     <strong>{{ node.id }}</strong> — Type: {{ node.type }}
@@ -27,7 +27,7 @@
                 <p>No nodes found.</p>
             {% endfor %}
 
-            <h3 style="font-size:16px;margin-top:20px">Edges ({{ edges|length }})</h3>
+            <h3 style="font-size:16px;margin-top:20px">Edges</h3>
             {% for edge in edges %}
                 <div style="padding:8px;border-bottom:1px solid #f0f0f0">
                     <strong>Edge {{ edge.id }}:</strong> {{ edge.from_node.id }} → {{ edge.to_node.id }} (Weight: {{ edge.weight }})
