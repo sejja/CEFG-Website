@@ -1,5 +1,4 @@
-// graphs_list.js
-// Fetch graph JSON and show a small preview SVG in a modal when hovering a list item.
+const svg_link = 'http://www.w3.org/2000/svg';
 
 function clearSvg(svg) {
   while (svg.firstChild) svg.removeChild(svg.firstChild);
@@ -25,7 +24,7 @@ function drawPreview(graph, svg) {
   edges.forEach(e=>{
     const a = positions[e.source], b = positions[e.target];
     if(!a||!b) return;
-    const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+    const line = document.createElementNS(svg_link,'line');
     line.setAttribute('x1', a.x);
     line.setAttribute('y1', a.y);
     line.setAttribute('x2', b.x);
@@ -37,7 +36,7 @@ function drawPreview(graph, svg) {
 
   nodes.forEach(n=>{
     const p = positions[n.id];
-    const circle = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    const circle = document.createElementNS(svg_link,'circle');
     circle.setAttribute('cx', p.x);
     circle.setAttribute('cy', p.y);
     circle.setAttribute('r', 10);
@@ -46,7 +45,7 @@ function drawPreview(graph, svg) {
     circle.setAttribute('stroke-width','1');
     svg.appendChild(circle);
 
-    const label = document.createElementNS('http://www.w3.org/2000/svg','text');
+    const label = document.createElementNS(svg_link,'text');
     label.setAttribute('x', p.x + 12);
     label.setAttribute('y', p.y + 4);
     label.setAttribute('font-size','10');
@@ -66,7 +65,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
   list.querySelectorAll('.graph-item').forEach(item=>{
     item.addEventListener('mouseenter', async (ev)=>{
       const id = item.dataset.id;
-      // small delay to avoid rapid requests
       hoverTimer = setTimeout(async ()=>{
         try {
           let graph = fetchCache[id];
@@ -81,7 +79,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
     item.addEventListener('mouseleave', ()=>{
       clearTimeout(hoverTimer);
     });
-    // clicking navigates to graph detail page
     item.addEventListener('click', ()=>{
       const id = item.dataset.id;
       window.location.href = `/graphs/${id}/`;
