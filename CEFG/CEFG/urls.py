@@ -22,7 +22,4 @@ from main.views import save_graph, check_get_graph
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
-    path('nlp-graph-static/', TemplateView.as_view(template_name='main/templates/index.html'), name='nlp_graph_static'),
-    path('save_graph/', save_graph, name='save_graph'),
-    path('check_get_graph/', check_get_graph, name='check_get_graph'),
 ]
