@@ -3,7 +3,7 @@ html, body{
     height:100%;
     margin:0;
     font-family:Georgia, 'Times New Roman', serif;
-    background:linear-gradient(180deg,var(--bg),#fff)
+    background:linear-gradient(180deg,var(--bg),#003c5f)
 }
 
 .page-title{
@@ -65,7 +65,7 @@ textarea{
 
 button{
     background:var(--accent);
-    color:white;
+    color:rgb(255, 255, 255);
     border:none;
     padding:10px 16px;
     border-radius:6px;
@@ -166,4 +166,14 @@ svg{
     padding:10px;
     border-bottom:1px solid #f0f0f0;
     cursor:pointer;
+}
+
+.analyze-button {
+    margin-top: 20px;
+    background: var(--accent);
+    background-color: rgb(22, 231, 238);
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
 }
