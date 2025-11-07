@@ -1,13 +1,6 @@
 // graphs_list.js
 // Fetch graph JSON and show a small preview SVG in a modal when hovering a list item.
 
-async function fetchGraphJson(id) {
-  const res = await fetchGraphJson(id);
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  const data = await res.json();
-  return data.graph;
-}
-
 function clearSvg(svg) {
   while (svg.firstChild) svg.removeChild(svg.firstChild);
 }
@@ -77,11 +70,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
       hoverTimer = setTimeout(async ()=>{
         try {
           let graph = fetchCache[id];
-          if (!graph) {
-            graph = await fetchGraphJson(id);
-            fetchCache[id] = graph;
+          if (graph) {
+            drawPreview(graph, svg);
           }
-          drawPreview(graph, svg);
         } catch (err) {
           console.error('Failed to fetch/preview graph', err);
         }
