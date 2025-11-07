@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Filter Graphs by Node Count — CEFG{% endblock %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{% static 'styles/filter_by_type.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="wrap">
+    <div class="paper">
+        <h1 class="section-title">Filter Graphs by Node Count</h1>
+        <p class="lead">Select a number of nodes to view all graphs with that exact node count.</p>
+
+        <div class="filter-controls">
+            <label for="node-count-select">Number of Nodes:</label>
+            <select id="node-count-select">
+                <option value="">— Select a node count —</option>
+                {% for count in node_counts %}
+                <option value="{{ count }}">{{ count }} nodes</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div id="results-container">
+            <p class="empty-state">Select a node count to see matching graphs.</p>
+        </div>
+
+        <div class="back-link-container">
+            <a href="/">← Back to home</a>
+            <a href="{% url 'main:filter_by_type' %}">Filter By Node Type</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/filter_by_node_count.js' %}"></script>
+{% endblock %}

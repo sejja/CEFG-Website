@@ -219,3 +219,42 @@ def graphs_by_type(_, node_type):
         import traceback
         traceback.print_exc()
         return JsonResponse({'error': str(e)}, status=500)
+
+def filter_by_node_count(request):
+    """Display the filter by node count page"""
+    graphs = Graph.objects.all().order_by('id')
+    node_counts = set()
+    for graph in graphs:
+        node_counts.add(graph.nodes.count())
+    
+    node_counts = sorted(list(node_counts))
+    
+    return render(request, 'filter_by_node_count.html', {
+        'node_counts': node_counts
+    })
+
+def graphs_by_node_count(_, node_count):
+    """Return graphs with a specific number of nodes"""
+    try:
+        graphs = Graph.objects.all().order_by('id')
+        
+        graph_list = []
+        for graph in graphs:
+            if graph.nodes.count() == node_count:
+                graph_list.append({
+                    'id': graph.id,
+                    'text': graph.text,
+                    'node_count': graph.nodes.count(),
+                    'edge_count': graph.edges.count()
+                })
+        
+        return JsonResponse({
+            'node_count': node_count,
+            'count': len(graph_list),
+            'graphs': graph_list
+        })
+        
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return JsonResponse({'error': str(e)}, status=500)
