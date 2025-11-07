@@ -41,11 +41,22 @@ html, body{
 h1.section-title{
     margin:0 0 16px;
     font-size:24px;
-    color:#1a3a5c;
     font-weight:700;
     padding-bottom:12px;
-    border-bottom:3px solid #007bff;
+    position:relative;
+    color:#007bff;
+    text-shadow:0 0 20px rgba(0, 123, 255, 0.3);
+}
+
+h1.section-title::after{
+    content:'';
+    position:absolute;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:3px;
     background:linear-gradient(90deg, #007bff, #00d4ff);
+    border-radius:2px;
 }
 
 p.lead{
