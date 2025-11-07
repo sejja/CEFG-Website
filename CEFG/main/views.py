@@ -221,20 +221,16 @@ def graphs_by_type(_, node_type):
         return JsonResponse({'error': str(e)}, status=500)
 
 def filter_by_node_count(request):
-    """Display the filter by node count page"""
     graphs = Graph.objects.all().order_by('id')
     node_counts = set()
-    for graph in graphs:
-        node_counts.add(graph.nodes.count())
-    
-    node_counts = sorted(list(node_counts))
+
+    node_counts = sorted(list([graph.nodes.count() for graph in graphs]))
     
     return render(request, 'filter_by_node_count.html', {
         'node_counts': node_counts
     })
 
 def graphs_by_node_count(_, node_count):
-    """Return graphs with a specific number of nodes"""
     try:
         graphs = Graph.objects.all().order_by('id')
         
