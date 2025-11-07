@@ -3,8 +3,11 @@ import json
 from django.http import JsonResponse, Http404
 from django.shortcuts import render
 from django.db import models
+from django.views.decorators.csrf import ensure_csrf_cookie
+
 from .models import Graph, Node, Edge
 
+@ensure_csrf_cookie
 def home(request):
     try :
         graph = Graph.objects.first()
