@@ -17,7 +17,7 @@
 }
 
 .back-link-container a {
-    color: var(--accent);
+    color: var(--accent, #007bff);
     text-decoration: none;
 }
 

@@ -3,7 +3,7 @@ html, body{
     height:100%;
     margin:0;
     font-family:Georgia, 'Times New Roman', serif;
-    background:linear-gradient(180deg,var(--bg),#003c5f)
+    background:linear-gradient(180deg, var(--bg, #ffffff), #003c5f)
 }
 
 .page-title{
@@ -32,7 +32,7 @@ html, body{
 .paper{
     width:980px;
     max-width:95%;
-    background:var(--paper);
+    background:var(--paper, #ffffff);
     box-shadow:0 6px 30px rgba(0,0,0,0.08);
     border-radius:8px;
     padding:28px
@@ -45,7 +45,7 @@ h1.section-title{
 
 p.lead{
     margin:0 0 18px;
-    color:var(--muted)
+    color:var(--muted, #666666)
 }
 
 .controls{
@@ -64,7 +64,7 @@ textarea{
 }
 
 button{
-    background:var(--accent);
+    background:var(--accent, #007bff);
     color:rgb(255, 255, 255);
     border:none;
     padding:10px 16px;
@@ -80,7 +80,7 @@ button{
 
 .meta{
     margin-top:12px;
-    color:var(--muted);
+    color:var(--muted, #666666);
     font-size:13px
 }
 
@@ -170,7 +170,7 @@ svg{
 
 .analyze-button {
     margin-top: 20px;
-    background: var(--accent);
+    background: var(--accent, #007bff);
     background-color: rgb(22, 231, 238);
     border: none;
     padding: 10px 16px;
