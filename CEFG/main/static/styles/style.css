@@ -128,7 +128,14 @@ svg{
 
 .preview-box{
     position:fixed;
-    background:#fff;border:1px solid #e6eef6;border-radius:8px;padding:10px;box-shadow:0 6px 20px rgba(0,0,0,0.12);pointer-events:auto;width:340px}
+    background:#fff;
+    border:1px solid #e6eef6;
+    border-radius:8px;
+    padding:10px;
+    box-shadow:0 6px 20px rgba(0,0,0,0.12);
+    pointer-events:auto;
+    width:340px;
+}
 
 .preview-box svg{
     width:320px;
@@ -141,5 +148,22 @@ svg{
 
 .centered-margin {
     text-align:center;
-    margin:18px 0
+    margin:18px 0;
+}
+
+.no-padding-no-margin {
+    list-style:none;
+    padding:0;
+    margin:0;
+}
+
+.controls-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.node {
+    padding:10px;
+    border-bottom:1px solid #f0f0f0;
+    cursor:pointer;
 }

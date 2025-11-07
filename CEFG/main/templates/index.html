@@ -9,7 +9,7 @@
 
     <div class="controls">
       <textarea id="sentence" placeholder="Type or paste a sentence here">Barack Obama visited Microsoft in 2014 and later spoke at the University of Oxford.</textarea>
-      <div style="display:flex;flex-direction:column">
+      <div class="controls-column">
         <button id="analyze">Analyze (placeholder)</button>
         <button id="random" class="btn-secondary">Random sentence</button>
       </div>
@@ -24,11 +24,11 @@
       </div>
     </div>
 
-    <section style="margin-top:20px">
+    <section class="top-margin_twenty">
       <h2 class="section-title">Saved graphs</h2>
-      <ul id="graphs-list" style="list-style:none;padding:0;margin:0">
+      <ul id="graphs-list" class="no-padding-no-margin">
         {% for g in graphs %}
-          <li class="graph-item" data-id="{{ g.id }}" style="padding:10px;border-bottom:1px solid #f0f0f0;cursor:pointer">
+          <li class="graph-item" data-id="{{ g.id }}" class="node">
             <strong>#{{ g.id }}</strong> — {{ g.text|truncatechars:80 }}
           </li>
         {% empty %}
