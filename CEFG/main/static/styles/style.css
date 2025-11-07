@@ -46,9 +46,6 @@ h1.section-title{
     padding-bottom:12px;
     border-bottom:3px solid #007bff;
     background:linear-gradient(90deg, #007bff, #00d4ff);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    background-clip:text;
 }
 
 p.lead{
