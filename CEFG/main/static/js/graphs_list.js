@@ -13,7 +13,6 @@ function clearSvg(svg) {
 }
 
 function drawPreview(graph, svg) {
-  // simple circular layout
   clearSvg(svg);
   const w = parseInt(svg.getAttribute('width') || svg.clientWidth || 320, 10);
   const h = parseInt(svg.getAttribute('height') || svg.clientHeight || 200, 10);
@@ -30,7 +29,6 @@ function drawPreview(graph, svg) {
     positions[n.id] = {x,y};
   });
 
-  // draw edges
   edges.forEach(e=>{
     const a = positions[e.source], b = positions[e.target];
     if(!a||!b) return;
@@ -44,7 +42,6 @@ function drawPreview(graph, svg) {
     svg.appendChild(line);
   });
 
-  // draw nodes
   nodes.forEach(n=>{
     const p = positions[n.id];
     const circle = document.createElementNS('http://www.w3.org/2000/svg','circle');
