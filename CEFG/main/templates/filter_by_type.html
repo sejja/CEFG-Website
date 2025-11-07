@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Filter Graphs by Node Type — CEFG{% endblock %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{% static 'styles/filter_by_type.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="wrap">
+    <div class="paper">
+        <h1 class="section-title">Filter Graphs by Node Type</h1>
+        <p class="lead">Select a node type to view all graphs containing nodes of that type.</p>
+
+        <div class="filter-controls">
+            <label for="type-select">Node Type:</label>
+            <select id="type-select">
+                <option value="">— Select a type —</option>
+                {% for type in node_types %}
+                <option value="{{ type }}">{{ type }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div id="results-container">
+            <p class="empty-state">Select a node type to see matching graphs.</p>
+        </div>
+
+        <div class="back-link-container">
+            <a href="/">← Back to home</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/filter_by_type.js' %}"></script>
+{% endblock %}

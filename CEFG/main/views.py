@@ -187,3 +187,35 @@ def save_graph(request):
     except Exception as e:
         traceback.print_exc()
         return JsonResponse({'error': f'Failed to save graph: {str(e)}'}, status=500)
+    
+def filter_by_type(request):
+    node_types = Node.objects.values_list('type', flat=True).distinct().order_by('type')
+    
+    return render(request, 'filter_by_type.html', {
+        'node_types': node_types
+    })
+
+def graphs_by_type(_, node_type):
+    try:
+        nodes_of_type = Node.objects.filter(type=node_type)
+        graphs = Graph.objects.filter(nodes__in=nodes_of_type).distinct().order_by('id')
+        
+        graph_list = []
+        for graph in graphs:
+            graph_list.append({
+                'id': graph.id,
+                'text': graph.text,
+                'node_count': graph.nodes.count(),
+                'edge_count': graph.edges.count()
+            })
+        
+        return JsonResponse({
+            'node_type': node_type,
+            'count': len(graph_list),
+            'graphs': graph_list
+        })
+        
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return JsonResponse({'error': str(e)}, status=500)

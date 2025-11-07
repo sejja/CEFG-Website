@@ -4,8 +4,8 @@
 {% block content %}
 <div class="wrap">
   <div class="paper">
-    <h1 class="section-title">NLP Graph (placeholder NER)</h1>
-    <p class="lead">Paste a sentence below. The site will (with a placeholder) detect entity spans and draw a graph of entities and relationships.</p>
+    <h1 class="section-title">Causal NLP Graph</h1>
+    <p class="lead">Paste a sentence below. The site will detect entity spans and draw a graph of entities and relationships.</p>
 
     <div class="controls">
       <textarea id="sentence" placeholder="Type or paste a sentence here">Barack Obama visited Microsoft in 2014 and later spoke at the University of Oxford.</textarea>
@@ -14,7 +14,7 @@
         <button id="random" class="btn-secondary">Random sentence</button>
       </div>
     </div>
-    <div class="meta">This demo uses randomly-generated spans (placeholder for a real NER model). Entities are connected to the sentence and to each other if they overlap or are adjacent.</div>
+    <div class="meta">This demo uses randomly-generated spans. Entities are connected to the sentence and to each other if they overlap or are adjacent.</div>
 
     <div class="graph-area">
       <svg id="svg"></svg>
@@ -26,7 +26,7 @@
 
     <section class="top-margin_twenty">
       <h2 class="section-title">Saved graphs</h2>
-      <p class="lead">Click any graph to view details or hover to preview.</p>
+      <p class="lead">Click any graph to view details.</p>
       <ul id="graphs-list" class="no-padding-no-margin">
         {% for g in graphs %}
           <li class="graph-item node" data-id="{{ g.id }}">
