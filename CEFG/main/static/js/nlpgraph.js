@@ -148,7 +148,7 @@ function buildGraph(spans) {
 
   spans.forEach((s, idx) => {
     const id = 'e' + idx;
-    nodes.push({ id: id, type: 'entity', label: s.label, text: s.text, start: s.start, end: s.end });
+    nodes.push({ id: id, label: s.label, text: s.text, start: s.start, end: s.end });
     edges.push({ source: 'sentence', target: id });
   });
 

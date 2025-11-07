@@ -2,13 +2,12 @@ from django.db import models
 
 # Create your models here.
 class Node(models.Model):
-    name = models.CharField(max_length=100, default='Unknown')
-    entity = models.CharField(max_length=50, default='Unknown')
+    id = models.IntegerField(primary_key=True)
     type = models.CharField(max_length=50, default='Unknown')
     text = models.TextField(default='Unknown')
 
     def __str__(self):
-        return self.name
+        return str(self.id)
     
 class Edge(models.Model):
     from_node = models.ForeignKey(Node, related_name='from_nodes', on_delete=models.CASCADE)

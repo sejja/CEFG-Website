@@ -2,7 +2,7 @@
 // Fetch graph JSON and show a small preview SVG in a modal when hovering a list item.
 
 async function fetchGraphJson(id) {
-  const res = await fetch(`/graphs/${id}/json/`);
+  const res = await fetchGraphJson(id);
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   const data = await res.json();
   return data.graph;

@@ -4,15 +4,11 @@ from .models import Graph, Node, Edge
 
 import json
 
-# Create your views here.
 def home(request):
-    # Renders a graph
-    graph = Graph.objects.first()  # Get the first graph
-    # get all nodes and edges related to the graph
+    graph = Graph.objects.first()
     nodes = graph.nodes.all()
     edges = graph.edges.all()
-    # Render the index page which contains the NLP graph UI and list of saved graphs
-    graphs = Graph.objects.all().order_by('-id')
+    graphs = Graph.objects.all().order_by('id')
     return render(request, 'index.html', {'graph': graph, 'nodes': nodes, 'edges': edges, 'graphs': graphs})
 
 def nlp_graph(request):
@@ -37,8 +33,7 @@ def graph_json(request, gid):
     nodes = []
     for n in graph.nodes.all():
         nodes.append({
-            'id': n.name,
-            'label': n.entity,
+            'id': n.id,
             'type': n.type,
             'text': n.text or ''
         })
@@ -46,8 +41,8 @@ def graph_json(request, gid):
     edges = []
     for e in graph.edges.all():
         edges.append({
-            'source': e.from_node.name,
-            'target': e.to_node.name
+            'source': e.from_node.id,
+            'target': e.to_node.id
         })
 
     return JsonResponse({'graph': {'nodes': nodes, 'edges': edges}})
@@ -98,8 +93,7 @@ def check_get_graph(request):
     nodes = []
     for n in existing_graph.nodes.all():
         nodes.append({
-            'id': n.name,
-            'label': n.entity,
+            'id': n.id,
             'type': n.type,
             'text': n.text or ''
         })
@@ -108,8 +102,8 @@ def check_get_graph(request):
     edges = []
     for e in existing_graph.edges.all():
         edges.append({
-            'source': e.from_node.name,
-            'target': e.to_node.name
+            'source': e.from_node.id,
+            'target': e.to_node.id
         })
 
     return JsonResponse({
@@ -169,7 +163,6 @@ def save_graph(request):
             
             node = Node.objects.create(
                 name=node_data['id'],
-                entity=node_data.get('label', ''),
                 type=node_data['type'],
                 text=node_data.get('text') or ''
             )

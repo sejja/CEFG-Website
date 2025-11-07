@@ -20,7 +20,7 @@
             <h3 style="font-size:16px;margin-top:12px">Nodes ({{ nodes|length }})</h3>
             {% for node in nodes %}
                 <div style="padding:8px;border-bottom:1px solid #f0f0f0">
-                    <strong>{{ node.name }}</strong> — Entity: {{ node.entity }}, Type: {{ node.type }}
+                    <strong>{{ node.id }}</strong> — Type: {{ node.type }}
                     {% if node.text %}<br><em>{{ node.text }}</em>{% endif %}
                 </div>
             {% empty %}
@@ -30,7 +30,7 @@
             <h3 style="font-size:16px;margin-top:20px">Edges ({{ edges|length }})</h3>
             {% for edge in edges %}
                 <div style="padding:8px;border-bottom:1px solid #f0f0f0">
-                    <strong>Edge {{ edge.id }}:</strong> {{ edge.from_node.name }} → {{ edge.to_node.name }} (Weight: {{ edge.weight }})
+                    <strong>Edge {{ edge.id }}:</strong> {{ edge.from_node.id }} → {{ edge.to_node.id }} (Weight: {{ edge.weight }})
                 </div>
             {% empty %}
                 <p>No edges found.</p>
@@ -56,13 +56,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const nodes = [
         { id: 'sentence', type: 'sentence', label: 'Sentence', text: null }
         {% for node in nodes %}
-        ,{ id: '{{ node.name }}', type: '{{ node.type }}', label: '{{ node.entity }}', text: '{{ node.text|escapejs }}' }
+        ,{ id: '{{ node.id }}', type: '{{ node.type }}', text: '{{ node.text|escapejs }}' }
         {% endfor %}
     ];
     
     const edges = [
         {% for edge in edges %}
-        { source: '{{ edge.from_node.name }}', target: '{{ edge.to_node.name }}' }{% if not forloop.last %},{% endif %}
+        { source: '{{ edge.from_node.id }}', target: '{{ edge.to_node.id }}' }{% if not forloop.last %},{% endif %}
         {% endfor %}
     ];
     
