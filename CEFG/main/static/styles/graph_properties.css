@@ -1,36 +1,76 @@
 /* Styles for graph_properties.html */
 
 .graph-details-section {
-    margin-top: 20px;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid #e6eef6;
+}
+
+.graph-details-section h2 {
+    color: #1a3a5c;
+    margin-bottom: 20px;
 }
 
 .graph-details-section h3 {
-    font-size: 16px;
-    margin-top: 12px;
+    font-size: 18px;
+    margin-top: 24px;
+    margin-bottom: 12px;
+    color: #2d5a8a;
+    font-weight: 600;
+    padding-left: 12px;
+    border-left: 4px solid #007bff;
 }
 
 .detail-item {
-    padding: 8px;
-    border-bottom: 1px solid #f0f0f0;
+    padding: 14px 16px;
+    margin-bottom: 8px;
+    border: 1px solid #e6eef6;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #ffffff 0%, #f9fcff 100%);
+    transition: all 0.2s ease;
+}
+
+.detail-item:hover {
+    border-color: #007bff;
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.08);
+    transform: translateX(4px);
 }
 
 .detail-item strong {
-    font-weight: bold;
+    font-weight: 700;
+    color: #007bff;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .detail-item em {
     font-style: italic;
+    color: #555;
+    display: block;
+    margin-top: 6px;
+    padding-left: 12px;
+    border-left: 2px solid #e6eef6;
 }
 
 .back-link-container {
-    margin-top: 20px;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #e6eef6;
 }
 
 .back-link-container a {
-    color: var(--accent, #007bff);
+    color: #007bff;
     text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
 }
 
 .back-link-container a:hover {
-    text-decoration: underline;
+    background: #f0f7ff;
+    text-decoration: none;
+    transform: translateX(-4px);
 }

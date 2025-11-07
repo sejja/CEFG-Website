@@ -52,9 +52,8 @@
 <!-- Hidden div to pass graph data from Django to JavaScript -->
 <div id="graph-data" 
      data-nodes='[
-        {"id": "sentence", "type": "sentence", "label": "Sentence", "text": null}
         {% for node in nodes %}
-        ,{"id": "{{ node.id }}", "type": "{{ node.type }}", "text": "{{ node.text|escapejs }}"}
+        {"id": "{{ node.id }}", "type": "{{ node.type }}", "label": "{{ node.type|title }}", "text": "{{ node.text|escapejs }}"}{% if not forloop.last %},{% endif %}
         {% endfor %}
      ]'
      data-edges='[

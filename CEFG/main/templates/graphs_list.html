@@ -19,7 +19,7 @@
           <strong>#{{ g.id }}</strong> — {{ g.text|truncatechars:80 }}
         </li>
       {% empty %}
-        <li>No saved graphs yet.</li>
+        <li class="empty-state">No saved graphs yet. Go to the home page to create one!</li>
       {% endfor %}
     </ul>
     <div class="back-link-container">

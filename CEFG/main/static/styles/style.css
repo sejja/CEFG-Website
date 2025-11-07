@@ -1,8 +1,9 @@
 html, body{
-    height:100%;
+    min-height:100%;
     margin:0;
     font-family:Georgia, 'Times New Roman', serif;
-    background:linear-gradient(180deg, var(--bg, #ffffff), #003c5f)
+    background:linear-gradient(180deg, var(--bg, #ffffff), #003c5f);
+    background-attachment:fixed;
 }
 
 .page-title{
@@ -38,13 +39,23 @@ html, body{
 }
 
 h1.section-title{
-    margin:0 0 10px;
-    font-size:20px
+    margin:0 0 16px;
+    font-size:24px;
+    color:#1a3a5c;
+    font-weight:700;
+    padding-bottom:12px;
+    border-bottom:3px solid #007bff;
+    background:linear-gradient(90deg, #007bff, #00d4ff);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    background-clip:text;
 }
 
 p.lead{
     margin:0 0 18px;
-    color:var(--muted, #666666)
+    color:var(--muted, #666666);
+    font-size:15px;
+    line-height:1.6;
 }
 
 .controls{
@@ -142,7 +153,22 @@ svg{
 }
 
 .top-margin_twenty {
-    margin-top: 20px;
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 2px solid #e6eef6;
+}
+
+.top-margin_twenty h2 {
+    color: #1a3a5c;
+    margin-bottom: 20px;
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.top-margin_twenty .lead {
+    margin-bottom: 16px;
+    color: #666;
+    font-size: 14px;
 }
 
 .centered-margin {
@@ -162,9 +188,55 @@ svg{
 }
 
 .node {
-    padding:10px;
-    border-bottom:1px solid #f0f0f0;
+    padding:16px 20px;
+    margin-bottom:12px;
+    border:1px solid #e6eef6;
+    border-radius:8px;
     cursor:pointer;
+    background:linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
+    box-shadow:0 2px 8px rgba(0, 0, 0, 0.04);
+    transition:all 0.3s ease;
+    position:relative;
+    overflow:hidden;
+}
+
+.node::before {
+    content:'';
+    position:absolute;
+    left:0;
+    top:0;
+    bottom:0;
+    width:4px;
+    background:linear-gradient(180deg, #007bff, #00d4ff);
+    opacity:0;
+    transition:opacity 0.3s ease;
+}
+
+.node:hover {
+    transform:translateY(-2px);
+    box-shadow:0 6px 20px rgba(0, 123, 255, 0.15);
+    border-color:#007bff;
+}
+
+.node:hover::before {
+    opacity:1;
+}
+
+.node strong {
+    color:#007bff;
+    font-weight:700;
+    font-size:14px;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+.empty-state {
+    text-align:center;
+    padding:40px 20px;
+    color:#999;
+    font-style:italic;
+    background:linear-gradient(135deg, #f9f9f9 0%, #f0f0f0 100%);
+    border-radius:8px;
+    border:2px dashed #ddd;
 }
 
 .analyze-button {

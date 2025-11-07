@@ -26,13 +26,14 @@
 
     <section class="top-margin_twenty">
       <h2 class="section-title">Saved graphs</h2>
+      <p class="lead">Click any graph to view details or hover to preview.</p>
       <ul id="graphs-list" class="no-padding-no-margin">
         {% for g in graphs %}
-          <li class="graph-item" data-id="{{ g.id }}" class="node">
+          <li class="graph-item node" data-id="{{ g.id }}">
             <strong>#{{ g.id }}</strong> — {{ g.text|truncatechars:80 }}
           </li>
         {% empty %}
-          <li>No saved graphs yet.</li>
+          <li class="empty-state">No saved graphs yet. Analyze a sentence to create one!</li>
         {% endfor %}
       </ul>
     </section>

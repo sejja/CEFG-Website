@@ -4,23 +4,87 @@
     list-style: none;
     padding: 0;
     margin: 0;
-}
-
-#graphs-list .graph-item {
-    padding: 10px;
-    border-bottom: 1px solid #f0f0f0;
-    cursor: pointer;
-}
-
-.back-link-container {
     margin-top: 20px;
 }
 
+#graphs-list .graph-item {
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    border: 1px solid #e6eef6;
+    border-radius: 8px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+#graphs-list .graph-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(180deg, #007bff, #00d4ff);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#graphs-list .graph-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 123, 255, 0.15);
+    border-color: #007bff;
+}
+
+#graphs-list .graph-item:hover::before {
+    opacity: 1;
+}
+
+#graphs-list .graph-item strong {
+    color: #007bff;
+    font-weight: 700;
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#graphs-list .graph-item:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.back-link-container {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #e6eef6;
+}
+
 .back-link-container a {
-    color: var(--accent, #007bff);
+    color: #007bff;
     text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
 }
 
 .back-link-container a:hover {
-    text-decoration: underline;
+    background: #f0f7ff;
+    text-decoration: none;
+    transform: translateX(-4px);
+}
+
+.empty-state {
+    text-align:center;
+    padding:40px 20px;
+    color:#999;
+    font-style:italic;
+    background:linear-gradient(135deg, #f9f9f9 0%, #f0f0f0 100%);
+    border-radius:8px;
+    border:2px dashed #ddd;
+    list-style:none;
 }
