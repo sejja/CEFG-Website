@@ -11,20 +11,57 @@ def home(request):
     # get all nodes and edges related to the graph
     nodes = graph.nodes.all()
     edges = graph.edges.all()
-    return render(request, 'main.html', {'graph': graph, 'nodes': nodes, 'edges': edges})
+    # Render the index page which contains the NLP graph UI and list of saved graphs
+    graphs = Graph.objects.all().order_by('-id')
+    return render(request, 'index.html', {'graph': graph, 'nodes': nodes, 'edges': edges, 'graphs': graphs})
 
 def nlp_graph(request):
     # Renders the NLP graph page
-    return render(request, 'index.html')
+    graphs = Graph.objects.all().order_by('-id')
+    return render(request, 'index.html', {'graphs': graphs})
+
+
+def graphs_list(request):
+    """Render a page with a list of saved graphs."""
+    graphs = Graph.objects.all().order_by('-id')
+    return render(request, 'graphs_list.html', {'graphs': graphs})
+
+
+def graph_json(request, gid):
+    """Return JSON serialization of a graph by id."""
+    try:
+        graph = Graph.objects.get(id=gid)
+    except Graph.DoesNotExist:
+        return JsonResponse({'error': 'Graph not found'}, status=404)
+
+    nodes = []
+    for n in graph.nodes.all():
+        nodes.append({
+            'id': n.name,
+            'label': n.entity,
+            'type': n.type,
+            'text': n.text or ''
+        })
+
+    edges = []
+    for e in graph.edges.all():
+        edges.append({
+            'source': e.from_node.name,
+            'target': e.to_node.name
+        })
+
+    return JsonResponse({'graph': {'nodes': nodes, 'edges': edges}})
 
 def check_get_graph(request):
     if request.method != 'POST':
         return JsonResponse({'error': 'Invalid request method'}, status=405)
-
     try:
         payload = json.loads(request.body.decode('utf-8')) if request.body else {}
-    except (ValueError, json.JSONDecodeError):
-        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+    except Exception as e:
+        # Log and return error details for easier debugging
+        import traceback
+        traceback.print_exc()
+        return JsonResponse({'error': f'Invalid JSON: {str(e)}'}, status=400)
 
     text = payload.get('text', '').strip().lower()
     
@@ -70,9 +107,12 @@ def save_graph(request):
         return JsonResponse({'error': 'Invalid request method'}, status=405)
     
     try:
-        data = json.loads(request.body)
-    except (ValueError, json.JSONDecodeError):
-        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        # decode bytes payload safely
+        data = json.loads(request.body.decode('utf-8')) if request.body else {}
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return JsonResponse({'error': f'Invalid JSON: {str(e)}'}, status=400)
     
     text = data.get('text', '').strip().lower()
     
@@ -144,8 +184,13 @@ def save_graph(request):
         return JsonResponse({'graph_id': graph.id, 'created': True})
         
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         print(f"Error saving graph: {str(e)}")
         # Clean up if something went wrong
         if 'graph' in locals():
-            graph.delete()
-        return JsonResponse({'error': 'Failed to save graph'}, status=500)
+            try:
+                graph.delete()
+            except Exception:
+                pass
+        return JsonResponse({'error': f'Failed to save graph: {str(e)}'}, status=500)

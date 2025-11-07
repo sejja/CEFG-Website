@@ -23,16 +23,28 @@ function getCookie(name) {
   return null;
 }
 
+function getCsrfToken() {
+  // Try cookie first
+  const fromCookie = getCookie('csrftoken');
+  if (fromCookie) return fromCookie;
+  // Fallback to meta tag (in case the cookie wasn't set)
+  const meta = document.querySelector('meta[name="csrf-token"]');
+  if (meta) return meta.getAttribute('content');
+  return null;
+}
+
 function check_get_graph(text) {
   console.log('Checking for existing graph on server...');
   const normalizedText = text.trim().toLowerCase();
 
-  return fetch('/check_get_graph/', {
+    return fetch('/check_get_graph/', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-CSRFToken': getCookie('csrftoken')
-    },
+    headers: (function(){
+      const headers = { 'Content-Type': 'application/json' };
+      const token = getCsrfToken();
+      if (token) headers['X-CSRFToken'] = token;
+      return headers;
+    })(),
     body: JSON.stringify({ text: normalizedText })
   })
   .then(response => {
@@ -65,10 +77,12 @@ function save_graph(graph, text) {
   
   return fetch('/save_graph/', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-CSRFToken': getCookie('csrftoken')
-    },
+    headers: (function(){
+      const headers = { 'Content-Type': 'application/json' };
+      const token = getCsrfToken();
+      if (token) headers['X-CSRFToken'] = token;
+      return headers;
+    })(),
     body: JSON.stringify({ graph: graph, text: normalizedText })
   })
   .then(response => {

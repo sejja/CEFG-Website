@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Saved Graphs — CEFG{% endblock %}
+{% block content %}
+<div class="wrap">
+  <div class="paper">
+    <h1 class="section-title">Saved graphs</h1>
+    <p class="lead">Hover any item to preview the graph. Click to open or inspect.</p>
+
+    <ul id="graphs-list" style="list-style:none;padding:0;margin:0">
+      {% for g in graphs %}
+        <li class="graph-item" data-id="{{ g.id }}" style="padding:10px;border-bottom:1px solid #f0f0f0;cursor:pointer">
+          <strong>#{{ g.id }}</strong> — {{ g.text|truncatechars:80 }}
+        </li>
+      {% empty %}
+        <li>No saved graphs yet.</li>
+      {% endfor %}
+    </ul>
+
+    <!-- Modal preview container (positioned by JS) -->
+    <div id="preview-modal" class="preview-modal" aria-hidden="true">
+      <div class="preview-box">
+        <svg id="preview-svg" width="320" height="200"></svg>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/graphs_list.js' %}" defer></script>
+{% endblock %}

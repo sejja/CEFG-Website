@@ -1,38 +1,54 @@
-<!doctype html>
+{% extends 'base.html' %}
 {% load static %}
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <link rel="stylesheet" href="{% static 'styles/style.css' %}">
-  </head>
-  <body>
-    <h2 class="page-title">CEFG NLP Graph Demo</h2>
-    <h1 class="page-authors">Lingfeng Chen, Martin Fernandez de Retana, Diego Revilla</h1>
-    <div class="wrap">
-      <div class="paper">
-        <h1 class="section-title">NLP Graph (placeholder NER)</h1>
-        <p class="lead">Paste a sentence below. The site will (with a placeholder) detect entity spans and draw a graph of entities and relationships.</p>
 
-        <div class="controls">
-          <textarea id="sentence" placeholder="Type or paste a sentence here">Barack Obama visited Microsoft in 2014 and later spoke at the University of Oxford.</textarea>
-          <div style="display:flex;flex-direction:column">
-            <button id="analyze">Analyze (placeholder)</button>
-            <button id="random" class="btn-secondary">Random sentence</button>
-          </div>
-        </div>
-        <div class="meta">This demo uses randomly-generated spans (placeholder for a real NER model). Entities are connected to the sentence and to each other if they overlap or are adjacent.</div>
+{% block content %}
+<div class="wrap">
+  <div class="paper">
+    <h1 class="section-title">NLP Graph (placeholder NER)</h1>
+    <p class="lead">Paste a sentence below. The site will (with a placeholder) detect entity spans and draw a graph of entities and relationships.</p>
 
-        <div class="graph-area">
-          <svg id="svg"></svg>
-          <div class="legend">
-            <span class="chip">Sentence</span>
-            <span class="chip">Entity</span>
-          </div>
-        </div>
+    <div class="controls">
+      <textarea id="sentence" placeholder="Type or paste a sentence here">Barack Obama visited Microsoft in 2014 and later spoke at the University of Oxford.</textarea>
+      <div style="display:flex;flex-direction:column">
+        <button id="analyze">Analyze (placeholder)</button>
+        <button id="random" class="btn-secondary">Random sentence</button>
+      </div>
+    </div>
+    <div class="meta">This demo uses randomly-generated spans (placeholder for a real NER model). Entities are connected to the sentence and to each other if they overlap or are adjacent.</div>
+
+    <div class="graph-area">
+      <svg id="svg"></svg>
+      <div class="legend">
+        <span class="chip">Sentence</span>
+        <span class="chip">Entity</span>
       </div>
     </div>
 
-    <script src="{% static 'js/nlpgraph.js' %}" defer></script>
-  </body>
-</html>
+    <!-- Saved graphs list (below the graph) -->
+    <section style="margin-top:20px">
+      <h2 class="section-title">Saved graphs</h2>
+      <ul id="graphs-list" style="list-style:none;padding:0;margin:0">
+        {% for g in graphs %}
+          <li class="graph-item" data-id="{{ g.id }}" style="padding:10px;border-bottom:1px solid #f0f0f0;cursor:pointer">
+            <strong>#{{ g.id }}</strong> — {{ g.text|truncatechars:80 }}
+          </li>
+        {% empty %}
+          <li>No saved graphs yet.</li>
+        {% endfor %}
+      </ul>
+
+      <!-- Modal preview container -->
+      <div id="preview-modal" class="preview-modal" aria-hidden="true">
+        <div class="preview-box">
+          <svg id="preview-svg" width="320" height="200"></svg>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/nlpgraph.js' %}" defer></script>
+<script src="{% static 'js/graphs_list.js' %}" defer></script>
+{% endblock %}
