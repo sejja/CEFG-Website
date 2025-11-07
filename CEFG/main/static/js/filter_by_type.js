@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
         resultsContainer.innerHTML = '<p class="loading-state">Loading graphs...</p>';
         
         try {
-            const response = await fetch(`/filter/?node_type=${encodeURIComponent(selectedType)}`);
+            const response = await fetch(`/api/graphs/type/${encodeURIComponent(selectedType)}/`);
             
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
