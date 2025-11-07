@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}Graph #{{ graph.id }} Properties — CEFG{% endblock %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{% static 'styles/graph_properties.css' %}">
+{% endblock %}
+
 {% block content %}
 <div class="wrap">
     <div class="paper">
@@ -15,11 +21,11 @@
             </div>
         </div>
 
-        <section style="margin-top:20px">
+        <section class="graph-details-section">
             <h2 class="section-title">Graph Details</h2>
-            <h3 style="font-size:16px;margin-top:12px">Nodes</h3>
+            <h3>Nodes</h3>
             {% for node in nodes %}
-                <div style="padding:8px;border-bottom:1px solid #f0f0f0">
+                <div class="detail-item">
                     <strong>{{ node.id }}</strong> — Type: {{ node.type }}
                     {% if node.text %}<br><em>{{ node.text }}</em>{% endif %}
                 </div>
@@ -27,9 +33,9 @@
                 <p>No nodes found.</p>
             {% endfor %}
 
-            <h3 style="font-size:16px;margin-top:20px">Edges</h3>
+            <h3>Edges</h3>
             {% for edge in edges %}
-                <div style="padding:8px;border-bottom:1px solid #f0f0f0">
+                <div class="detail-item">
                     <strong>Edge {{ edge.id }}:</strong> {{ edge.from_node.id }} → {{ edge.to_node.id }} (Weight: {{ edge.weight }})
                 </div>
             {% empty %}
@@ -37,8 +43,8 @@
             {% endfor %}
         </section>
 
-        <div style="margin-top:20px">
-            <a href="{% url 'main:graphs_list' %}" style="color:var(--accent);text-decoration:none">← Back to graphs list</a>
+        <div class="back-link-container">
+            <a href="{% url 'main:graphs_list' %}">← Back to graphs list</a>
         </div>
     </div>
 </div>

@@ -1,0 +1,26 @@
+/* Styles for graphs_list.html */
+
+#graphs-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#graphs-list .graph-item {
+    padding: 10px;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+}
+
+.back-link-container {
+    margin-top: 20px;
+}
+
+.back-link-container a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.back-link-container a:hover {
+    text-decoration: underline;
+}

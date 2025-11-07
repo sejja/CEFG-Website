@@ -1,23 +1,29 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block title %}Saved Graphs — CEFG{% endblock %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{% static 'styles/graphs_list.css' %}">
+{% endblock %}
+
 {% block content %}
 <div class="wrap">
   <div class="paper">
     <h1 class="section-title">Saved graphs</h1>
     <p class="lead">Hover any item to preview the graph. Click to open or inspect.</p>
 
-    <ul id="graphs-list" style="list-style:none;padding:0;margin:0">
+    <ul id="graphs-list">
       {% for g in graphs %}
-        <li class="graph-item" data-id="{{ g.id }}" style="padding:10px;border-bottom:1px solid #f0f0f0;cursor:pointer">
+        <li class="graph-item" data-id="{{ g.id }}">
           <strong>#{{ g.id }}</strong> — {{ g.text|truncatechars:80 }}
         </li>
       {% empty %}
         <li>No saved graphs yet.</li>
       {% endfor %}
     </ul>
-    <div style="margin-top:20px">
-            <a href="{% url 'main:home' %}" style="color:var(--accent);text-decoration:none">← Back to inference</a>
+    <div class="back-link-container">
+      <a href="{% url 'main:home' %}">← Back to inference</a>
     </div>
   </div>
 </div>

@@ -1,0 +1,36 @@
+/* Styles for graph_properties.html */
+
+.graph-details-section {
+    margin-top: 20px;
+}
+
+.graph-details-section h3 {
+    font-size: 16px;
+    margin-top: 12px;
+}
+
+.detail-item {
+    padding: 8px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.detail-item strong {
+    font-weight: bold;
+}
+
+.detail-item em {
+    font-style: italic;
+}
+
+.back-link-container {
+    margin-top: 20px;
+}
+
+.back-link-container a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.back-link-container a:hover {
+    text-decoration: underline;
+}
