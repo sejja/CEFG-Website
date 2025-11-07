@@ -42,36 +42,25 @@
         </div>
     </div>
 </div>
+
+<!-- Hidden div to pass graph data from Django to JavaScript -->
+<div id="graph-data" 
+     data-nodes='[
+        {"id": "sentence", "type": "sentence", "label": "Sentence", "text": null}
+        {% for node in nodes %}
+        ,{"id": "{{ node.id }}", "type": "{{ node.type }}", "text": "{{ node.text|escapejs }}"}
+        {% endfor %}
+     ]'
+     data-edges='[
+        {% for edge in edges %}
+        {"source": "{{ edge.from_node.id }}", "target": "{{ edge.to_node.id }}"}{% if not forloop.last %},{% endif %}
+        {% endfor %}
+     ]'
+     style="display:none">
+</div>
 {% endblock %}
 
 {% block scripts %}
 <script src="{% static 'js/nlpgraph.js' %}"></script>
-<script>
-// Render the graph for this detail page when DOM loads
-document.addEventListener('DOMContentLoaded', () => {
-    const svg = document.getElementById('svg');
-    if (!svg) return;
-    
-    // Build graph from server-rendered data
-    const nodes = [
-        { id: 'sentence', type: 'sentence', label: 'Sentence', text: null }
-        {% for node in nodes %}
-        ,{ id: '{{ node.id }}', type: '{{ node.type }}', text: '{{ node.text|escapejs }}' }
-        {% endfor %}
-    ];
-    
-    const edges = [
-        {% for edge in edges %}
-        { source: '{{ edge.from_node.id }}', target: '{{ edge.to_node.id }}' }{% if not forloop.last %},{% endif %}
-        {% endfor %}
-    ];
-    
-    const graph = { nodes, edges };
-    
-    // Use the simulate function from nlpgraph.js
-    if (typeof simulate === 'function') {
-        simulate(graph, svg);
-    }
-});
-</script>
+<script src="{% static 'js/graph_detail.js' %}"></script>
 {% endblock %}
