@@ -134,3 +134,12 @@ svg{
     width:320px;
     height:200px
 }
+
+.top-margin_twenty {
+    margin-top: 20px;
+}
+
+.centered-margin {
+    text-align:center;
+    margin:18px 0
+}
