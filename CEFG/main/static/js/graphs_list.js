@@ -63,32 +63,9 @@ function drawPreview(graph, svg) {
   });
 }
 
-function showModalAt(modal, x, y) {
-  modal.style.display = 'block';
-  modal.setAttribute('aria-hidden','false');
-  // position modal near x,y but keep inside viewport
-  const box = modal.querySelector('.preview-box');
-  const pad = 8;
-  const vw = window.innerWidth, vh = window.innerHeight;
-  let left = x + 12;
-  let top = y + 12;
-  const rect = box.getBoundingClientRect();
-  const bw = rect.width || 340, bh = rect.height || 220;
-  if (left + bw + pad > vw) left = x - bw - 12;
-  if (top + bh + pad > vh) top = y - bh - 12;
-  box.style.left = `${left}px`;
-  box.style.top = `${top}px`;
-}
-
-function hideModal(modal) {
-  modal.style.display = 'none';
-  modal.setAttribute('aria-hidden','true');
-}
-
 document.addEventListener('DOMContentLoaded', ()=>{
   const list = document.getElementById('graphs-list');
   if (!list) return;
-  const modal = document.getElementById('preview-modal');
   const svg = document.getElementById('preview-svg');
   let fetchCache = {};
   let hoverTimer = null;
@@ -105,28 +82,18 @@ document.addEventListener('DOMContentLoaded', ()=>{
             fetchCache[id] = graph;
           }
           drawPreview(graph, svg);
-          showModalAt(modal, ev.clientX, ev.clientY);
         } catch (err) {
           console.error('Failed to fetch/preview graph', err);
         }
       }, 180);
     });
-    item.addEventListener('mousemove', (ev)=>{
-      if (modal.style.display !== 'none') showModalAt(modal, ev.clientX, ev.clientY);
-    });
     item.addEventListener('mouseleave', ()=>{
       clearTimeout(hoverTimer);
-      hideModal(modal);
     });
     // clicking navigates to graph detail page
     item.addEventListener('click', ()=>{
       const id = item.dataset.id;
       window.location.href = `/graphs/${id}/`;
     });
-  });
-
-  // hide modal when clicking outside
-  document.addEventListener('click', (ev)=>{
-    if (!modal.contains(ev.target)) hideModal(modal);
   });
 });
