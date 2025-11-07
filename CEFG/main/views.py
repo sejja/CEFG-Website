@@ -1,8 +1,8 @@
-from django.http import JsonResponse
+import traceback
+import json
+from django.http import JsonResponse, Http404
 from django.shortcuts import render
 from .models import Graph, Node, Edge
-
-import json
 
 def home(request):
     graph = Graph.objects.first()
@@ -11,49 +11,39 @@ def home(request):
     graphs = Graph.objects.all().order_by('id')
     return render(request, 'index.html', {'graph': graph, 'nodes': nodes, 'edges': edges, 'graphs': graphs})
 
-def nlp_graph(request):
-    # Renders the NLP graph page
-    graphs = Graph.objects.all().order_by('-id')
-    return render(request, 'index.html', {'graphs': graphs})
-
-
 def graphs_list(request):
-    """Render a page with a list of saved graphs."""
-    graphs = Graph.objects.all().order_by('-id')
+    graphs = Graph.objects.all().order_by('id')
     return render(request, 'graphs_list.html', {'graphs': graphs})
 
 
-def graph_json(request, gid):
-    """Return JSON serialization of a graph by id."""
+def graph_json(_, gid):
     try:
         graph = Graph.objects.get(id=gid)
+
+        nodes = []
+        for n in graph.nodes.all():
+            nodes.append({
+                'id': n.id,
+                'type': n.type,
+                'text': n.text or ''
+            })
+
+        edges = []
+        for e in graph.edges.all():
+            edges.append({
+                'source': e.from_node.id,
+                'target': e.to_node.id
+            })
+
+        return JsonResponse({'graph': {'nodes': nodes, 'edges': edges}})
     except Graph.DoesNotExist:
         return JsonResponse({'error': 'Graph not found'}, status=404)
 
-    nodes = []
-    for n in graph.nodes.all():
-        nodes.append({
-            'id': n.id,
-            'type': n.type,
-            'text': n.text or ''
-        })
-
-    edges = []
-    for e in graph.edges.all():
-        edges.append({
-            'source': e.from_node.id,
-            'target': e.to_node.id
-        })
-
-    return JsonResponse({'graph': {'nodes': nodes, 'edges': edges}})
-
 
 def graph_detail(request, gid):
-    """Render a detail page for a specific graph."""
     try:
         graph = Graph.objects.get(id=gid)
     except Graph.DoesNotExist:
-        from django.http import Http404
         raise Http404("Graph not found")
     
     nodes = graph.nodes.all()
@@ -70,8 +60,6 @@ def check_get_graph(request):
     try:
         payload = json.loads(request.body.decode('utf-8')) if request.body else {}
     except Exception as e:
-        # Log and return error details for easier debugging
-        import traceback
         traceback.print_exc()
         return JsonResponse({'error': f'Invalid JSON: {str(e)}'}, status=400)
 
@@ -80,7 +68,6 @@ def check_get_graph(request):
     if not text:
         return JsonResponse({'error': 'Missing or empty "text" in request'}, status=400)
     
-    # Validate text length
     if len(text) > 5000:
         return JsonResponse({'error': 'Text too long (max 5000 characters)'}, status=400)
 
