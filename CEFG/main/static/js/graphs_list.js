@@ -4,6 +4,7 @@ function clearSvg(svg) {
   while (svg.firstChild) svg.removeChild(svg.firstChild);
 }
 
+//Graph drawing functionality proposed by ChatGPT, then modified accordingly.
 function drawPreview(graph, svg) {
   clearSvg(svg);
   const w = parseInt(svg.getAttribute('width') || svg.clientWidth || 320, 10);

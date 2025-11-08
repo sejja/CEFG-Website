@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     try {
-      // Show loading state (optional)
       btn.disabled = true;
       btn.textContent = 'Analyzing...';
       
@@ -45,6 +44,5 @@ document.addEventListener('DOMContentLoaded', () => {
     ta.value = examples[randomConstrained(0, examples.length - 1)];
   });
 
-  // run once on load
   btn.click();
 })
