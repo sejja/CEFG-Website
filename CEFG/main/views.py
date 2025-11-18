@@ -4,6 +4,7 @@ from django.http import JsonResponse, Http404
 from django.shortcuts import render
 from django.db import models
 from django.views.decorators.csrf import ensure_csrf_cookie
+from django.utils.html import strip_tags
 
 from .models import *
 
@@ -259,10 +260,11 @@ def about(request):
     if request.method == 'GET':
         return render(request, 'about.html')
     elif request.method == 'POST':
-        name = request.POST.get('name', '').strip()
-        email = request.POST.get('email', '').strip()
-        subject = request.POST.get('subject', '').strip()
-        message = request.POST.get('message', '')
+        # Sanitize and process the form data
+        name = strip_tags(request.POST.get('name', ''))
+        email = strip_tags(request.POST.get('email', ''))
+        subject = strip_tags(request.POST.get('subject', ''))
+        message = strip_tags(request.POST.get('message', ''))
         if not name or not email or not subject or not message:
             return render(request, 'about.html', {'error': 'All fields are required.'})
         else:
