@@ -9,6 +9,15 @@
     {% block head_extra %}{% endblock %}
   </head>
   <body>
+    <nav class="navbar">
+      <div class="centered-margin">
+        <ul class="nav-links">
+          <li><a href="{% url 'main:home' %}">Home</a></li>
+          <li><a href="{% url 'main:about' %}">About</a></li>
+        </ul>
+      </div>
+    </nav>
+
     <header class="centered-margin">
       <h2 class="page-title">CEFG NLP Graph Demo</h2>
       <h1 class="page-authors">Lingfeng Chen, Martin Fernandez de Retana, Diego Revilla</h1>

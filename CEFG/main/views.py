@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.db import models
 from django.views.decorators.csrf import ensure_csrf_cookie
 
-from .models import Graph, Node, Edge
+from .models import *
 
 @ensure_csrf_cookie
 def home(request):
@@ -254,3 +254,22 @@ def graphs_by_node_count(_, node_count):
         import traceback
         traceback.print_exc()
         return JsonResponse({'error': str(e)}, status=500)
+
+def about(request):
+    if request.method == 'GET':
+        return render(request, 'about.html')
+    elif request.method == 'POST':
+        name = request.POST.get('name', '').strip()
+        email = request.POST.get('email', '').strip()
+        subject = request.POST.get('subject', '').strip()
+        message = request.POST.get('message', '')
+        if not name or not email or not subject or not message:
+            return render(request, 'about.html', {'error': 'All fields are required.'})
+        else:
+            Message.objects.create(
+                name=name,
+                email=email,
+                subject=subject,
+                message=message
+            )
+        return render(request, 'about.html')
