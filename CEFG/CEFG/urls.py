@@ -18,8 +18,9 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
 from main.views import save_graph, check_get_graph
+from debug_toolbar.toolbar import debug_toolbar_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
-]
+] + debug_toolbar_urls()
