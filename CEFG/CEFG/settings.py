@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-&#oo95imm3dh0mge=%&!6-2$1paoa72ft9ww14+m=+))%0#rvt
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    "https://cefg-website.onrender.com/"
+    "cefg-website.onrender.com"
 ]
 
 
