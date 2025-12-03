@@ -4,8 +4,9 @@ from django.http import JsonResponse, Http404
 from django.shortcuts import render
 from django.db import models
 from django.views.decorators.csrf import ensure_csrf_cookie
+from django.utils.html import strip_tags
 
-from .models import Graph, Node, Edge
+from .models import *
 
 @ensure_csrf_cookie
 def home(request):
@@ -254,3 +255,23 @@ def graphs_by_node_count(_, node_count):
         import traceback
         traceback.print_exc()
         return JsonResponse({'error': str(e)}, status=500)
+
+def about(request):
+    if request.method == 'GET':
+        return render(request, 'about.html')
+    elif request.method == 'POST':
+        # Sanitize and process the form data
+        name = strip_tags(request.POST.get('name', ''))
+        email = strip_tags(request.POST.get('email', ''))
+        subject = strip_tags(request.POST.get('subject', ''))
+        message = strip_tags(request.POST.get('message', ''))
+        if not name or not email or not subject or not message:
+            return render(request, 'about.html', {'error': 'All fields are required.'})
+        else:
+            Message.objects.create(
+                name=name,
+                email=email,
+                subject=subject,
+                message=message
+            )
+        return render(request, 'about.html')

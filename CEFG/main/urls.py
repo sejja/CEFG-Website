@@ -12,5 +12,6 @@ urlpatterns = [
     path('filter/', views.filter_by_type, name='filter_by_type'),
     path('graphs/type/<str:node_type>/', views.graphs_by_type, name='graphs_by_type'),
     path('filter/by-node-count/', views.filter_by_node_count, name='filter_by_node_count'),
-    path('graphs/node-count/<int:node_count>/', views.graphs_by_node_count, name='graphs_by_node_count')
+    path('graphs/node-count/<int:node_count>/', views.graphs_by_node_count, name='graphs_by_node_count'),
+    path('about/', views.about, name='about'),
 ]
