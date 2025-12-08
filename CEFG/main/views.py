@@ -225,7 +225,7 @@ def filter_by_node_count(request):
     graphs = Graph.objects.all().order_by('id')
     node_counts = set()
 
-    node_counts = sorted(list([graph.nodes.count() for graph in graphs]))
+    node_counts = set(sorted(list([graph.nodes.count() for graph in graphs])))
     
     return render(request, 'filter_by_node_count.html', {
         'node_counts': node_counts

@@ -1,35 +1,35 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
 <div class="wrap">
   <div class="paper">
-    <h1 class="section-title">Causal NLP Graph</h1>
-    <p class="lead">Paste a sentence below. The site will detect entity spans and draw a graph of entities and relationships.</p>
+    <h1 class="section-title">{% trans "Causal NLP Graph" %}</h1>
+    <p class="lead">{% trans "Paste a sentence below. The site will detect entity spans and draw a graph of entities and relationships." %}</p>
 
     <div class="controls">
-      <textarea id="sentence" placeholder="Type or paste a sentence here">Barack Obama visited Microsoft in 2014 and later spoke at the University of Oxford.</textarea>
+      <textarea id="sentence" placeholder="{% trans "Type or paste a sentence here" %}">Barack Obama visited Microsoft in 2014 and later spoke at the University of Oxford.</textarea>
       <div class="controls-column">
-        <button id="analyze" class="analyze-button">Analyze</button>
-        <button id="random" class="btn-secondary">Random sentence</button>
+        <button id="analyze" class="analyze-button">{% trans "Analyze" %}</button>
+        <button id="random" class="btn-secondary">{% trans "Random sentence" %}</button>
       </div>
     </div>
-    <div class="meta">This demo uses randomly-generated spans. Entities are connected to the sentence and to each other if they overlap or are adjacent.</div>
-
+    <div class="meta">{% trans "This demo uses randomly-generated spans. Entities are connected to the sentence and to each other if they overlap or are adjacent." %}</div>
     <div class="graph-area">
       <svg id="svg"></svg>
     </div>
 
     <section class="top-margin_twenty">
-      <h2 class="section-title">Saved graphs</h2>
-      <p class="lead">Click any graph to view details.</p>
+      <h2 class="section-title">{% trans "Saved graphs" %}</h2>
+      <p class="lead">{% trans "Click any graph to view details." %}</p>
       <ul id="graphs-list" class="no-padding-no-margin">
         {% for g in graphs %}
           <li class="graph-item node" data-id="{{ g.id }}">
             <strong>#{{ g.id }}</strong> — {{ g.text|truncatechars:80 }}
           </li>
         {% empty %}
-          <li class="empty-state">No saved graphs yet. Analyze a sentence to create one!</li>
+          <li class="empty-state">{% trans "No saved graphs yet. Analyze a sentence to create one!" %}</li>
         {% endfor %}
       </ul>
     </section>

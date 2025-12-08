@@ -1,9 +1,10 @@
 {% load static %}
+{% load i18n %}
 <!doctype html>
-<html lang="en">
+<html lang="{{ LANGUAGE_CODE }}">
   <head>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>{% block title %}CEFG NLP Graph{% endblock %}</title>
+    <title>{% block title %}{% trans "CEFG NLP Graph" %}{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'styles/style.css' %}">
     <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
     {% block head_extra %}{% endblock %}
@@ -12,14 +13,29 @@
     <nav class="navbar">
       <div class="centered-margin">
         <ul class="nav-links">
-          <li><a href="{% url 'main:home' %}">Home</a></li>
-          <li><a href="{% url 'main:about' %}">About</a></li>
+          <li><a href="{% url 'main:home' %}">{% trans "Home" %}</a></li>
+          <li><a href="{% url 'main:about' %}">{% trans "About" %}</a></li>
+          <li>
+            <form action="{% url 'set_language' %}" method="post" style="display:inline;">
+              {% csrf_token %}
+              <input name="next" type="hidden" value="{{ request.path }}">
+              <select name="language" onchange="this.form.submit()">
+                {% get_current_language as LANGUAGE_CODE %}
+                {% get_available_languages as LANGUAGES %}
+                {% for lang_code, lang_name in LANGUAGES %}
+                  <option value="{{ lang_code }}" {% if lang_code == LANGUAGE_CODE %}selected{% endif %}>
+                    {{ lang_name }}
+                  </option>
+                {% endfor %}
+              </select>
+            </form>
+          </li>
         </ul>
       </div>
     </nav>
 
     <header class="centered-margin">
-      <h2 class="page-title">CEFG NLP Graph Demo</h2>
+      <h2 class="page-title">{% trans "CEFG NLP Graph Demo" %}</h2>
       <h1 class="page-authors">Lingfeng Chen, Martin Fernandez de Retana, Diego Revilla</h1>
     </header>
 

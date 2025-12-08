@@ -1,0 +1,261 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-08 15:16+0000\n"
+"PO-Revision-Date: 2025-12-08 15:20+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: CEFG/CEFG/settings.py:123
+msgid "English"
+msgstr "English"
+
+#: CEFG/CEFG/settings.py:124
+msgid "Spanish"
+msgstr "Spanish"
+
+#: CEFG/main/templates/about.html:5 CEFG/main/templates/base.html:17
+msgid "About"
+msgstr "About"
+
+#: CEFG/main/templates/about.html:14
+msgid "About CEFG"
+msgstr "About CEFG"
+
+#: CEFG/main/templates/about.html:16
+msgid ""
+"Learn more about our NLP graph analysis platform and get in touch with us."
+msgstr "Learn more about our NLP graph analysis platform and get in touch with us."
+
+#: CEFG/main/templates/about.html:21
+msgid "Contact Us"
+msgstr "Contact Us"
+
+#: CEFG/main/templates/about.html:22
+msgid "Have questions or feedback? We'd love to hear from you!"
+msgstr "Have questions or feedback? We'd love to hear from you!"
+
+#: CEFG/main/templates/about.html:28
+msgid "Name"
+msgstr "Name"
+
+#: CEFG/main/templates/about.html:29
+msgid "Your full name"
+msgstr "Your full name"
+
+#: CEFG/main/templates/about.html:33
+msgid "Email"
+msgstr "Email"
+
+#: CEFG/main/templates/about.html:34
+msgid "your.email@example.com"
+msgstr "your.email@example.com"
+
+#: CEFG/main/templates/about.html:38
+msgid "Subject"
+msgstr "Subject"
+
+#: CEFG/main/templates/about.html:39
+msgid "What is this about?"
+msgstr "What is this about?"
+
+#: CEFG/main/templates/about.html:43
+msgid "Message"
+msgstr "Message"
+
+#: CEFG/main/templates/about.html:44
+msgid "Tell us what's on your mind..."
+msgstr "Tell us what's on your mind..."
+
+#: CEFG/main/templates/about.html:48
+msgid "Send Message"
+msgstr "Send Message"
+
+#: CEFG/main/templates/base.html:7
+msgid "CEFG NLP Graph"
+msgstr "CEFG NLP Graph"
+
+#: CEFG/main/templates/base.html:16
+msgid "Home"
+msgstr "Home"
+
+#: CEFG/main/templates/base.html:23
+msgid "CEFG NLP Graph Demo"
+msgstr "CEFG NLP Graph Demo"
+
+#: CEFG/main/templates/filter_by_node_count.html:5
+#: CEFG/main/templates/filter_by_node_count.html:14
+msgid "Filter Graphs by Node Count"
+msgstr "Filter Graphs by Node Count"
+
+#: CEFG/main/templates/filter_by_node_count.html:15
+msgid "Select a number of nodes to view all graphs with that exact node count."
+msgstr "Select a number of nodes to view all graphs with that exact node count."
+
+#: CEFG/main/templates/filter_by_node_count.html:18
+msgid "Number of Nodes:"
+msgstr "Number of Nodes:"
+
+#: CEFG/main/templates/filter_by_node_count.html:20
+msgid "— Select a node count —"
+msgstr "— Select a node count —"
+
+#: CEFG/main/templates/filter_by_node_count.html:22
+msgid "nodes"
+msgstr "nodes"
+
+#: CEFG/main/templates/filter_by_node_count.html:28
+msgid "Select a node count to see matching graphs."
+msgstr "Select a node count to see matching graphs."
+
+#: CEFG/main/templates/filter_by_node_count.html:32
+#: CEFG/main/templates/filter_by_type.html:32
+msgid "Back to home"
+msgstr "Back to home"
+
+#: CEFG/main/templates/filter_by_node_count.html:33
+#: CEFG/main/templates/graphs_list.html:28
+msgid "Filter By Node Type"
+msgstr "Filter By Node Type"
+
+#: CEFG/main/templates/filter_by_type.html:5
+#: CEFG/main/templates/filter_by_type.html:14
+msgid "Filter Graphs by Node Type"
+msgstr "Filter Graphs by Node Type"
+
+#: CEFG/main/templates/filter_by_type.html:15
+msgid "Select a node type to view all graphs containing nodes of that type."
+msgstr "Select a node type to view all graphs containing nodes of that type."
+
+#: CEFG/main/templates/filter_by_type.html:18
+msgid "Node Type:"
+msgstr "Node Type:"
+
+#: CEFG/main/templates/filter_by_type.html:20
+msgid "— Select a type —"
+msgstr "— Select a type —"
+
+#: CEFG/main/templates/filter_by_type.html:28
+msgid "Select a node type to see matching graphs."
+msgstr "Select a node type to see matching graphs."
+
+#: CEFG/main/templates/filter_by_type.html:33
+#: CEFG/main/templates/graphs_list.html:29
+msgid "Filter By Node Count"
+msgstr "Filter By Node Count"
+
+#: CEFG/main/templates/graph_properties.html:14
+msgid "Graph #"
+msgstr "Graph #"
+
+#: CEFG/main/templates/graph_properties.html:14
+msgid " Properties"
+msgstr " Properties"
+
+#: CEFG/main/templates/graph_properties.html:15
+msgid "Text:"
+msgstr "Text:"
+
+#: CEFG/main/templates/graph_properties.html:22
+msgid "Graph Details"
+msgstr "Graph Details"
+
+#: CEFG/main/templates/graph_properties.html:23
+msgid "Nodes"
+msgstr "Nodes"
+
+#: CEFG/main/templates/graph_properties.html:26
+msgid "Type:"
+msgstr "Type:"
+
+#: CEFG/main/templates/graph_properties.html:30
+msgid "No nodes found."
+msgstr "No nodes found."
+
+#: CEFG/main/templates/graph_properties.html:33
+msgid "Edges"
+msgstr "Edges"
+
+#: CEFG/main/templates/graph_properties.html:36
+msgid "Edge"
+msgstr "Edge"
+
+#: CEFG/main/templates/graph_properties.html:36
+msgid "Weight:"
+msgstr "Weight:"
+
+#: CEFG/main/templates/graph_properties.html:39
+msgid "No edges found."
+msgstr "No edges found."
+
+#: CEFG/main/templates/graph_properties.html:44
+msgid "Back to graphs list"
+msgstr "Back to graphs list"
+
+#: CEFG/main/templates/graphs_list.html:5
+#: CEFG/main/templates/graphs_list.html:14
+msgid "Saved Graphs"
+msgstr "Saved Graphs"
+
+#: CEFG/main/templates/graphs_list.html:15
+msgid "Hover any item to preview the graph. Click to open or inspect."
+msgstr "Hover any item to preview the graph. Click to open or inspect."
+
+#: CEFG/main/templates/graphs_list.html:23
+msgid "No saved graphs yet. Go to the home page to create one!"
+msgstr "No saved graphs yet. Go to the home page to create one!"
+
+#: CEFG/main/templates/graphs_list.html:27
+msgid "Back to inference"
+msgstr "Back to inference"
+
+#: CEFG/main/templates/index.html:8
+msgid "Causal NLP Graph"
+msgstr "Causal NLP Graph"
+
+#: CEFG/main/templates/index.html:9
+msgid ""
+"Paste a sentence below. The site will detect entity spans and draw a graph "
+"of entities and relationships."
+msgstr "Paste a sentence below. The site will detect entity spans and draw a graph of entities and relationships."
+
+#: CEFG/main/templates/index.html:12
+msgid "Type or paste a sentence here"
+msgstr "Type or paste a sentence here"
+
+#: CEFG/main/templates/index.html:14
+msgid "Analyze"
+msgstr "Analyze"
+
+#: CEFG/main/templates/index.html:15
+msgid "Random sentence"
+msgstr "Random sentence"
+
+#: CEFG/main/templates/index.html:18
+msgid ""
+"This demo uses randomly-generated spans. Entities are connected to the "
+"sentence and to each other if they overlap or are adjacent."
+msgstr "This demo uses randomly-generated spans. Entities are connected to the sentence and to each other if they overlap or are adjacent."
+
+#: CEFG/main/templates/index.html:24
+msgid "Saved graphs"
+msgstr "Saved graphs"
+
+#: CEFG/main/templates/index.html:25
+msgid "Click any graph to view details."
+msgstr "Click any graph to view details."
+
+#: CEFG/main/templates/index.html:32
+msgid "No saved graphs yet. Analyze a sentence to create one!"
+msgstr "No saved graphs yet. Analyze a sentence to create one!"

@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Filter Graphs by Node Type — CEFG{% endblock %}
+{% block title %}{% trans "Filter Graphs by Node Type" %} — CEFG{% endblock %}
 
 {% block head_extra %}
 <link rel="stylesheet" href="{% static 'styles/filter_by_type.css' %}">
@@ -10,13 +11,13 @@
 {% block content %}
 <div class="wrap">
     <div class="paper">
-        <h1 class="section-title">Filter Graphs by Node Type</h1>
-        <p class="lead">Select a node type to view all graphs containing nodes of that type.</p>
+        <h1 class="section-title">{% trans "Filter Graphs by Node Type" %}</h1>
+        <p class="lead">{% trans "Select a node type to view all graphs containing nodes of that type." %}</p>
 
         <div class="filter-controls">
-            <label for="type-select">Node Type:</label>
+            <label for="type-select">{% trans "Node Type:" %}</label>
             <select id="type-select">
-                <option value="">— Select a type —</option>
+                <option value="">{% trans "— Select a type —" %}</option>
                 {% for type in node_types %}
                 <option value="{{ type }}">{{ type }}</option>
                 {% endfor %}
@@ -24,12 +25,12 @@
         </div>
 
         <div id="results-container">
-            <p class="empty-state">Select a node type to see matching graphs.</p>
+            <p class="empty-state">{% trans "Select a node type to see matching graphs." %}</p>
         </div>
 
         <div class="back-link-container">
-            <a href="/">← Back to home</a>
-            <a href="{% url 'main:filter_by_node_count' %}">Filter By Node Count</a>
+            <a href="/">← {% trans "Back to home" %}</a>
+            <a href="{% url 'main:filter_by_node_count' %}">{% trans "Filter By Node Count" %}</a>
         </div>
     </div>
 </div>

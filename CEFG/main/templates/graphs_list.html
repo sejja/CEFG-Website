@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Saved Graphs — CEFG{% endblock %}
+{% block title %}{% trans "Saved Graphs" %} — CEFG{% endblock %}
 
 {% block head_extra %}
 <link rel="stylesheet" href="{% static 'styles/graphs_list.css' %}">
@@ -10,8 +11,8 @@
 {% block content %}
 <div class="wrap">
   <div class="paper">
-    <h1 class="section-title">Saved graphs</h1>
-    <p class="lead">Hover any item to preview the graph. Click to open or inspect.</p>
+    <h1 class="section-title">{% trans "Saved Graphs" %}</h1>
+    <p class="lead">{% trans "Hover any item to preview the graph. Click to open or inspect." %}</p>
 
     <ul id="graphs-list">
       {% for g in graphs %}
@@ -19,13 +20,13 @@
           <strong>#{{ g.id }}</strong> — {{ g.text|truncatechars:80 }}
         </li>
       {% empty %}
-        <li class="empty-state">No saved graphs yet. Go to the home page to create one!</li>
+        <li class="empty-state">{% trans "No saved graphs yet. Go to the home page to create one!" %}</li>
       {% endfor %}
     </ul>
     <div class="back-link-container">
-      <a href="{% url 'main:home' %}">← Back to inference</a>
-      <a href="{% url 'main:filter_by_type' %}">Filter By Node Type</a>
-      <a href="{% url 'main:filter_by_node_count' %}">Filter By Node Count</a>
+      <a href="{% url 'main:home' %}">← {% trans "Back to inference" %}</a>
+      <a href="{% url 'main:filter_by_type' %}">{% trans "Filter By Node Type" %}</a>
+      <a href="{% url 'main:filter_by_node_count' %}">{% trans "Filter By Node Count" %}</a>
     </div>
   </div>
 </div>

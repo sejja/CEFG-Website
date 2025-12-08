@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block title %}Graph #{{ graph.id }} Properties — CEFG{% endblock %}
 
@@ -10,37 +11,37 @@
 {% block content %}
 <div class="wrap">
     <div class="paper">
-        <h1 class="section-title">Graph #{{ graph.id }} Properties</h1>
-        <p class="lead">Text: <strong>{{ graph.text }}</strong></p>
+        <h1 class="section-title">{% trans "Graph #" %}{{ graph.id }}{% trans " Properties" %}</h1>
+        <p class="lead">{% trans "Text:" %} <strong>{{ graph.text }}</strong></p>
 
         <div class="graph-area">
             <svg id="svg"></svg>
         </div>
 
         <section class="graph-details-section">
-            <h2 class="section-title">Graph Details</h2>
-            <h3>Nodes</h3>
+            <h2 class="section-title">{% trans "Graph Details" %}</h2>
+            <h3>{% trans "Nodes" %}</h3>
             {% for node in nodes %}
                 <div class="detail-item">
-                    <strong>{{ node.id }}</strong> — Type: {{ node.type }}
+                    <strong>{{ node.id }}</strong> — {% trans "Type:" %} {{ node.type }}
                     {% if node.text %}<br><em>{{ node.text }}</em>{% endif %}
                 </div>
             {% empty %}
-                <p>No nodes found.</p>
+                <p>{% trans "No nodes found." %}</p>
             {% endfor %}
 
-            <h3>Edges</h3>
+            <h3>{% trans "Edges" %}</h3>
             {% for edge in edges %}
                 <div class="detail-item">
-                    <strong>Edge {{ edge.id }}:</strong> {{ edge.from_node.id }} → {{ edge.to_node.id }} (Weight: {{ edge.weight }})
+                    <strong>{% trans "Edge" %} {{ edge.id }}:</strong> {{ edge.from_node.id }} → {{ edge.to_node.id }} ({% trans "Weight:" %} {{ edge.weight }})
                 </div>
             {% empty %}
-                <p>No edges found.</p>
+                <p>{% trans "No edges found." %}</p>
             {% endfor %}
         </section>
 
         <div class="back-link-container">
-            <a href="{% url 'main:graphs_list' %}">← Back to graphs list</a>
+            <a href="{% url 'main:graphs_list' %}">← {% trans "Back to graphs list" %}</a>
         </div>
     </div>
 </div>

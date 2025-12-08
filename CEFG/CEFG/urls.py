@@ -19,8 +19,19 @@ from django.urls import path, include
 from django.views.generic import TemplateView
 from main.views import save_graph, check_get_graph
 from debug_toolbar.toolbar import debug_toolbar_urls
+from django.conf.urls.i18n import i18n_patterns
+from main.urls import urlpatterns_with_language, urlpatterns_without_language
 
+
+# URLs without language prefix
 urlpatterns = [
+    path('i18n/', include('django.conf.urls.i18n')),
     path('admin/', admin.site.urls),
-    path('', include('main.urls')),
-] + debug_toolbar_urls()
+    
+] + debug_toolbar_urls() + urlpatterns_without_language
+
+# URLs with language prefix
+urlpatterns += i18n_patterns(
+    path('', include((urlpatterns_with_language, 'main'), namespace='main')),
+    prefix_default_language=True
+)

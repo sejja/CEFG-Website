@@ -1,0 +1,261 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-08 15:18+0000\n"
+"PO-Revision-Date: 2025-12-08 15:25+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
+
+#: CEFG/CEFG/settings.py:123
+msgid "English"
+msgstr "Inglés"
+
+#: CEFG/CEFG/settings.py:124
+msgid "Spanish"
+msgstr "Español"
+
+#: CEFG/main/templates/about.html:5 CEFG/main/templates/base.html:17
+msgid "About"
+msgstr "Acerca de"
+
+#: CEFG/main/templates/about.html:14
+msgid "About CEFG"
+msgstr "Acerca de CEFG"
+
+#: CEFG/main/templates/about.html:16
+msgid ""
+"Learn more about our NLP graph analysis platform and get in touch with us."
+msgstr "Aprende más sobre nuestra plataforma de análisis de grafos PLN y ponte en contacto con nosotros."
+
+#: CEFG/main/templates/about.html:21
+msgid "Contact Us"
+msgstr "Contáctanos"
+
+#: CEFG/main/templates/about.html:22
+msgid "Have questions or feedback? We'd love to hear from you!"
+msgstr "¿Tienes preguntas o comentarios? ¡Nos encantaría saber de ti!"
+
+#: CEFG/main/templates/about.html:28
+msgid "Name"
+msgstr "Nombre"
+
+#: CEFG/main/templates/about.html:29
+msgid "Your full name"
+msgstr "Tu nombre completo"
+
+#: CEFG/main/templates/about.html:33
+msgid "Email"
+msgstr "Correo electrónico"
+
+#: CEFG/main/templates/about.html:34
+msgid "your.email@example.com"
+msgstr "tu.correo@ejemplo.com"
+
+#: CEFG/main/templates/about.html:38
+msgid "Subject"
+msgstr "Asunto"
+
+#: CEFG/main/templates/about.html:39
+msgid "What is this about?"
+msgstr "¿De qué se trata?"
+
+#: CEFG/main/templates/about.html:43
+msgid "Message"
+msgstr "Mensaje"
+
+#: CEFG/main/templates/about.html:44
+msgid "Tell us what's on your mind..."
+msgstr "Cuéntanos qué estás pensando..."
+
+#: CEFG/main/templates/about.html:48
+msgid "Send Message"
+msgstr "Enviar mensaje"
+
+#: CEFG/main/templates/base.html:7
+msgid "CEFG NLP Graph"
+msgstr "Grafo PLN CEFG"
+
+#: CEFG/main/templates/base.html:16
+msgid "Home"
+msgstr "Inicio"
+
+#: CEFG/main/templates/base.html:23
+msgid "CEFG NLP Graph Demo"
+msgstr "Demo de Grafo PLN CEFG"
+
+#: CEFG/main/templates/filter_by_node_count.html:5
+#: CEFG/main/templates/filter_by_node_count.html:14
+msgid "Filter Graphs by Node Count"
+msgstr "Filtrar grafos por cantidad de nodos"
+
+#: CEFG/main/templates/filter_by_node_count.html:15
+msgid "Select a number of nodes to view all graphs with that exact node count."
+msgstr "Selecciona un número de nodos para ver todos los grafos con esa cantidad exacta de nodos."
+
+#: CEFG/main/templates/filter_by_node_count.html:18
+msgid "Number of Nodes:"
+msgstr "Número de nodos:"
+
+#: CEFG/main/templates/filter_by_node_count.html:20
+msgid "— Select a node count —"
+msgstr "— Selecciona una cantidad de nodos —"
+
+#: CEFG/main/templates/filter_by_node_count.html:22
+msgid "nodes"
+msgstr "nodos"
+
+#: CEFG/main/templates/filter_by_node_count.html:28
+msgid "Select a node count to see matching graphs."
+msgstr "Selecciona una cantidad de nodos para ver los grafos coincidentes."
+
+#: CEFG/main/templates/filter_by_node_count.html:32
+#: CEFG/main/templates/filter_by_type.html:32
+msgid "Back to home"
+msgstr "Volver al inicio"
+
+#: CEFG/main/templates/filter_by_node_count.html:33
+#: CEFG/main/templates/graphs_list.html:28
+msgid "Filter By Node Type"
+msgstr "Filtrar por tipo de nodo"
+
+#: CEFG/main/templates/filter_by_type.html:5
+#: CEFG/main/templates/filter_by_type.html:14
+msgid "Filter Graphs by Node Type"
+msgstr "Filtrar grafos por tipo de nodo"
+
+#: CEFG/main/templates/filter_by_type.html:15
+msgid "Select a node type to view all graphs containing nodes of that type."
+msgstr "Selecciona un tipo de nodo para ver todos los grafos que contengan nodos de ese tipo."
+
+#: CEFG/main/templates/filter_by_type.html:18
+msgid "Node Type:"
+msgstr "Tipo de nodo:"
+
+#: CEFG/main/templates/filter_by_type.html:20
+msgid "— Select a type —"
+msgstr "— Selecciona un tipo —"
+
+#: CEFG/main/templates/filter_by_type.html:28
+msgid "Select a node type to see matching graphs."
+msgstr "Selecciona un tipo de nodo para ver los grafos coincidentes."
+
+#: CEFG/main/templates/filter_by_type.html:33
+#: CEFG/main/templates/graphs_list.html:29
+msgid "Filter By Node Count"
+msgstr "Filtrar por cantidad de nodos"
+
+#: CEFG/main/templates/graph_properties.html:14
+msgid "Graph #"
+msgstr "Grafo #"
+
+#: CEFG/main/templates/graph_properties.html:14
+msgid " Properties"
+msgstr " Propiedades"
+
+#: CEFG/main/templates/graph_properties.html:15
+msgid "Text:"
+msgstr "Texto:"
+
+#: CEFG/main/templates/graph_properties.html:22
+msgid "Graph Details"
+msgstr "Detalles del grafo"
+
+#: CEFG/main/templates/graph_properties.html:23
+msgid "Nodes"
+msgstr "Nodos"
+
+#: CEFG/main/templates/graph_properties.html:26
+msgid "Type:"
+msgstr "Tipo:"
+
+#: CEFG/main/templates/graph_properties.html:30
+msgid "No nodes found."
+msgstr "No se encontraron nodos."
+
+#: CEFG/main/templates/graph_properties.html:33
+msgid "Edges"
+msgstr "Aristas"
+
+#: CEFG/main/templates/graph_properties.html:36
+msgid "Edge"
+msgstr "Arista"
+
+#: CEFG/main/templates/graph_properties.html:36
+msgid "Weight:"
+msgstr "Peso:"
+
+#: CEFG/main/templates/graph_properties.html:39
+msgid "No edges found."
+msgstr "No se encontraron aristas."
+
+#: CEFG/main/templates/graph_properties.html:44
+msgid "Back to graphs list"
+msgstr "Volver a la lista de grafos"
+
+#: CEFG/main/templates/graphs_list.html:5
+#: CEFG/main/templates/graphs_list.html:14
+msgid "Saved Graphs"
+msgstr "Grafos guardados"
+
+#: CEFG/main/templates/graphs_list.html:15
+msgid "Hover any item to preview the graph. Click to open or inspect."
+msgstr "Pasa el cursor sobre cualquier elemento para previsualizar el grafo. Haz clic para abrir o inspeccionar."
+
+#: CEFG/main/templates/graphs_list.html:23
+msgid "No saved graphs yet. Go to the home page to create one!"
+msgstr "Aún no hay grafos guardados. ¡Ve a la página de inicio para crear uno!"
+
+#: CEFG/main/templates/graphs_list.html:27
+msgid "Back to inference"
+msgstr "Volver a la inferencia"
+
+#: CEFG/main/templates/index.html:8
+msgid "Causal NLP Graph"
+msgstr "Grafo PLN causal"
+
+#: CEFG/main/templates/index.html:9
+msgid ""
+"Paste a sentence below. The site will detect entity spans and draw a graph "
+"of entities and relationships."
+msgstr "Pega una oración a continuación. El sitio detectará los fragmentos de entidades y dibujará un grafo de entidades y relaciones."
+
+#: CEFG/main/templates/index.html:12
+msgid "Type or paste a sentence here"
+msgstr "Escribe o pega una oración aquí"
+
+#: CEFG/main/templates/index.html:14
+msgid "Analyze"
+msgstr "Analizar"
+
+#: CEFG/main/templates/index.html:15
+msgid "Random sentence"
+msgstr "Oración aleatoria"
+
+#: CEFG/main/templates/index.html:18
+msgid ""
+"This demo uses randomly-generated spans. Entities are connected to the "
+"sentence and to each other if they overlap or are adjacent."
+msgstr "Esta demostración utiliza fragmentos generados aleatoriamente. Las entidades están conectadas a la oración y entre sí si se superponen o son adyacentes."
+
+#: CEFG/main/templates/index.html:24
+msgid "Saved graphs"
+msgstr "Grafos guardados"
+
+#: CEFG/main/templates/index.html:25
+msgid "Click any graph to view details."
+msgstr "Haz clic en cualquier grafo para ver detalles."
+
+#: CEFG/main/templates/index.html:32
+msgid "No saved graphs yet. Analyze a sentence to create one!"
+msgstr "Aún no hay grafos guardados. ¡Analiza una oración para crear uno!"
